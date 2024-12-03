@@ -1,2 +1,0 @@
-def meu():
-    print("Teste")

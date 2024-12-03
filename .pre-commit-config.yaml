@@ -12,8 +12,9 @@ repos:
     hooks:
       - id: requirements
         name: requirements
+        description: 'Update requirements.txt with freeze'
         entry: pip freeze > requirements.txt; git add requirements.txt
         language: system
         pass_filenames: false
-        stages: [commit]
+        stages: [pre-commit]
 
