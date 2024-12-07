@@ -17,6 +17,8 @@
 
 from datetime import datetime, timezone
 
+import pytz
+
 import src.utils.datetime_utils as fdtu
 
 
@@ -30,3 +32,27 @@ def test_dt_in_past():
 
     assert fdtu.dt_in_past(base_past) is True
     assert fdtu.dt_in_past(base_future) is False
+
+
+def test_date_now_brasilia():
+    aux = datetime.now(pytz.timezone("America/Sao_Paulo")).date()
+
+    assert fdtu.date_now_brasilia() == aux
+
+
+def test_date_now_utc():
+    aux = fdtu.dt_now_utc().date()
+
+    assert fdtu.date_now_utc() == aux
+
+
+def test_time_now_brasilia():
+    aux = datetime.now(pytz.timezone("America/Sao_Paulo")).time()
+
+    assert fdtu.time_now_brasilia() == aux
+
+
+def test_time_now_utc():
+    aux = fdtu.dt_now_utc().time()
+
+    assert fdtu.time_now_utc() == aux

@@ -4,7 +4,7 @@ repos:
       - id: flake8
         name: flake8
         description: 'Formatador de fonte com flake8'
-        entry: flake8 --exclude venv --show-source --statistics --tee
+        entry: bash -c './venv/Scripts/flake8 --exclude venv --show-source --statistics --tee'
         language: python
         types: [python]
         pass_filenames: false
@@ -12,8 +12,8 @@ repos:
     hooks:
       - id: requirements
         name: requirements
-        description: 'Update requirements.txt with freeze'
-        entry: bash -c 'pip freeze > requirements.txt; git add requirements.txt'
+        description: 'Update requirements.txt with freeze (Windows)'
+        entry: bash -c './venv/Scripts/pip freeze > requirements.txt; git add requirements.txt'
         language: system
         pass_filenames: false
         stages: [pre-commit]
@@ -22,7 +22,7 @@ repos:
       - id: pytest
         name: pytest
         description: 'Execute tests with pytest'
-        entry: pytest -v -s
+        entry: bash -c './venv/Scripts/pytest -v -s'
         language: system
         always_run: true
         pass_filenames: false

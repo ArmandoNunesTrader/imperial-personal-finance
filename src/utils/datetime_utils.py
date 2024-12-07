@@ -33,3 +33,31 @@ def dt_in_past(my_now: datetime) -> bool:
     now_base = my_now.astimezone(pytz.timezone("America/Sao_Paulo"))
 
     return now_aux > now_base
+
+
+# Obtém a data atual na timezone de Brasília
+def date_now_brasilia() -> datetime.date:
+    now_aux = datetime.now(pytz.timezone("America/Sao_Paulo")).date()
+
+    return now_aux
+
+
+# Obtém a data atual na timezone UTC
+def date_now_utc() -> datetime.date:
+    now_aux = now_aux = dt_now_utc().date()
+
+    return now_aux
+
+
+# Obtém a hora atual na timezone de Brasília
+def time_now_brasilia() -> datetime.time:
+    now_aux = datetime.now(pytz.timezone("America/Sao_Paulo")).time()
+
+    return now_aux
+
+
+# Obtém a hora atual na timezone UTC
+def time_now_utc() -> datetime.time:
+    now_aux = now_aux = dt_now_utc().time()
+
+    return now_aux
