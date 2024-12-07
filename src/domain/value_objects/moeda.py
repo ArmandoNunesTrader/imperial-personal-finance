@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
 """
-@File    :   Moeda.py
+@File    :   moeda.py
 @Created :   07/12/2024 15:45:14
 @Author  :   Armando Nunes
 @Version :   1.0
