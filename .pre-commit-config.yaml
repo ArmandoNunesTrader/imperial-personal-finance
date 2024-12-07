@@ -17,8 +17,8 @@ repos:
         language: system
         pass_filenames: false
         stages: [pre-commit]
-  -   repo: local
-      hooks:
+  - repo: local
+    hooks:
       - id: pytest
         name: pytest
         description: 'Execute tests with pytest'
