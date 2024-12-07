@@ -20,7 +20,7 @@ from uuid import UUID, uuid4
 from datetime import datetime
 
 
-from src.domain.value_objects import Moeda
+from src.domain.value_objects.moeda import Moeda as VO_Moeda
 
 import src.utils.datetime_utils as dtu
 
@@ -28,11 +28,11 @@ import src.utils.datetime_utils as dtu
 @dataclass
 class Moedas:
     id_moeda: UUID = field(default_factory=uuid4)
-    sigla: str
-    descricao: str
-    paridade_com_real_brasileiro: Moeda
-    created_at: datetime = field(default_factory=dtu.dt_now_utc())
-    updated_at: datetime = field(default_factory=dtu.dt_now_utc())
+    sigla: str = field(default=None)
+    descricao: str = field(default=None)
+    paridade_com_real_brasileiro: VO_Moeda = field(default=VO_Moeda())
+    created_at: datetime = field(default=dtu.dt_now_utc())
+    updated_at: datetime = field(default=dtu.dt_now_utc())
 
     # Necessário para o funcionamento do __repr__ que é criado automaticamente
     def __str__(self):

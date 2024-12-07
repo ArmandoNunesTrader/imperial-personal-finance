@@ -43,21 +43,45 @@ def date_now_brasilia() -> datetime.date:
 
 
 # Obtém a data atual na timezone UTC
-def date_now_utc() -> datetime.date:
-    now_aux = now_aux = dt_now_utc().date()
+def date_now_utc() -> datetime:
+    now_aux = dt_now_utc().date()
 
     return now_aux
 
 
 # Obtém a hora atual na timezone de Brasília
-def time_now_brasilia() -> datetime.time:
+def time_now_brasilia() -> datetime:
     now_aux = datetime.now(pytz.timezone("America/Sao_Paulo")).time()
 
     return now_aux
 
 
 # Obtém a hora atual na timezone UTC
-def time_now_utc() -> datetime.time:
-    now_aux = now_aux = dt_now_utc().time()
+def time_now_utc() -> datetime:
+    now_aux = dt_now_utc().time()
 
     return now_aux
+
+
+# Formata um campo date no formato dd-mm-aaaa
+def date_dd_mm_yyyy(date_in: datetime.date) -> str:
+    dt_in = datetime.strptime(str(date_in), "%Y-%m-%d").strftime("%d-%m-%Y")
+
+    return dt_in
+
+
+# Formata um campo time no formato hh:mm:ss
+def time_hh_mm_ss(time_in: datetime.time) -> str:
+    dt_in = time_in.strftime("%H:%M:%S")
+
+    return dt_in
+
+
+# Format um campo datetime no formato dd-mm-aaaa hh:mm:ss
+def datetime_dd_mm_yyyy_hh_mm_ss(datetime_in: datetime) -> str:
+    date_in = datetime_in.date()
+    time_in = datetime_in.time()
+
+    result = "{} {}".format(date_dd_mm_yyyy(date_in), time_hh_mm_ss(time_in))
+
+    return result

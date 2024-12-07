@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from uuid import UUID, uuid4
 from datetime import datetime, date
 
-from src.domain.entities.moedas import Moedas
+from src.domain.value_objects.moeda import Moeda as VO_Moeda
 from src.domain.enums.situacoes_dos_lancamentos import SituacoesDosLancamentos
 from src.domain.enums.tipos_de_lancamentos import TiposDeLancamentos
 
@@ -27,24 +27,22 @@ import src.utils.datetime_utils as dtu
 
 
 @dataclass
-class PlanoDeContas:
+class Lancamentos:
     id_lancamento: UUID = field(default_factory=uuid4)
-    data_do_lancamento: date = field(default=dtu.date_now_brasilia)
-    data_do_vencimento: date = field(default=dtu.date_now_brasilia)
-    valor_do_lancamento: Moedas
-    descricao: str
-    id_plano_de_contas: UUID
-    id_conta: UUID
-    id_cartao_de_credito: UUID
-    id_centro_de_custo: UUID
+    data_do_lancamento: date = field(default=dtu.date_now_brasilia())
+    data_do_vencimento: date = field(default=dtu.date_now_brasilia())
+    valor_do_lancamento: VO_Moeda = field(default=VO_Moeda())
+    descricao: str = field(default="Lançamento")
+    id_plano_de_contas: UUID = field(default=None)
+    id_conta: UUID = field(default=None)
+    id_cartao_de_credito: UUID = field(default=None)
+    id_centro_de_custo: UUID = field(default=None)
     situacao_do_lancamento: SituacoesDosLancamentos = field(
-        default=SituacoesDosLancamentos.a_receber.value
+        default=SituacoesDosLancamentos.A_RECEBER
     )
-    tipo_de_lancamento: TiposDeLancamentos = field(
-        default=TiposDeLancamentos.receita.value
-    )
-    created_at: datetime = field(default_factory=dtu.dt_now_utc())
-    updated_at: datetime = field(default_factory=dtu.dt_now_utc())
+    tipo_de_lancamento: TiposDeLancamentos = field(default=TiposDeLancamentos.RECEITA)
+    created_at: datetime = field(default=dtu.dt_now_utc())
+    updated_at: datetime = field(default=dtu.dt_now_utc())
 
     # Necessário para o funcionamento do __repr__ que é criado automaticamente
     def __str__(self):
@@ -52,6 +50,7 @@ class PlanoDeContas:
 
         return repr.format(
             self.id_lancamento,
-            self.data_do_lancamento.strftime("%d-%m-%Y"),
-            self.valor_do_lancamento,
+            dtu.date_dd_mm_yyyy(self.data_do_vencimento),
+            self.descricao,
+            self.valor_do_lancamento.formatada,
         )

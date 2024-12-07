@@ -56,3 +56,29 @@ def test_time_now_utc():
     aux = fdtu.dt_now_utc().time()
 
     assert fdtu.time_now_utc() == aux
+
+
+def test_date_dd_mm_yyyy():
+    now = str(datetime.now().date())
+    now_out = datetime.strptime(now, "%Y-%m-%d").strftime("%d-%m-%Y")
+
+    assert fdtu.date_dd_mm_yyyy(now) == now_out
+
+
+def test_time_hh_mm_ss():
+    now = datetime.now().time()
+    now_out = now.strftime("%H:%M:%S")
+
+    assert fdtu.time_hh_mm_ss(now) == now_out
+
+
+def test_datetime_dd_mm_yyyy_hh_mm_ss():
+    now_aux = datetime.now()
+    now_date = str(now_aux.date())
+    now_time = now_aux.time()
+    now_out_date = datetime.strptime(now_date, "%Y-%m-%d").strftime("%d-%m-%Y")
+    now_out_time = now_time.strftime("%H:%M:%S")
+
+    assert (
+        fdtu.datetime_dd_mm_yyyy_hh_mm_ss(now_aux) == now_out_date + " " + now_out_time
+    )
