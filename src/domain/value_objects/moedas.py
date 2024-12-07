@@ -15,7 +15,7 @@
     ============================================================================
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from src.domain.enums.tipos_de_moedas import TiposDeMoedas
 
@@ -29,14 +29,14 @@ def real_br_money_mask(my_value):
 
 @dataclass(frozen=True)  # Garante que os atributos depois de criados, não mudam
 class Moeda:
-    valor: float
-    tipo_de_moeda: TiposDeMoedas
+    valor: float = field(default=1.00)
+    tipo_de_moeda: TiposDeMoedas = field(default=TiposDeMoedas.BRL)
 
     @property
     def formatada(self) -> str:
-        if self.tipo_de_moeda == TiposDeMoedas.real.value:
+        if self.tipo_de_moeda is TiposDeMoedas.BRL:
             return "R$ " + real_br_money_mask(self.valor)
-        elif self.tipo_de_moeda == TiposDeMoedas.dolar.value:
-            return "\N{dollar sign} " + "{:,.2f}".format(123456.87)
-        elif self.tipo_de_moeda == TiposDeMoedas.euro.value:
-            return "\N{euro sign} " + "{:,.2f}".format(123456.87)
+        elif self.tipo_de_moeda == TiposDeMoedas.USD:
+            return "\N{dollar sign} " + "{:,.2f}".format(self.valor)
+        elif self.tipo_de_moeda == TiposDeMoedas.EUR:
+            return "\N{euro sign} " + "{:,.2f}".format(self.valor)
