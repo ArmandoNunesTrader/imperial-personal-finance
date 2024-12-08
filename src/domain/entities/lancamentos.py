@@ -58,6 +58,10 @@ class Lancamentos:
         repr=True, compare=False, init=False
     )
     tipo_de_lancamento: TiposDeLancamentos = field(repr=True, compare=False, init=False)
+    vencido: bool = field(repr=True, compare=False, default=False)
+    ano_mes_orcamento: str = field(
+        repr=True, compare=False, default=dtu.date_now_brasilia().strftime("%Y-%m")
+    )
     created_at: datetime = field(default=dtu.dt_now_utc())
     updated_at: datetime = field(default=dtu.dt_now_utc())
 
@@ -90,6 +94,19 @@ class Lancamentos:
             self.tipo_de_lancamento = TiposDeLancamentos(
                 self.descricao_tipo_de_lancamento
             )
+        # Gera o indicador de lançamento vencido
+        if (self.situacao_do_lancamento == SituacoesDosLancamentos.A_PAGAR) or (
+            self.situacao_do_lancamento == SituacoesDosLancamentos.A_RECEBER
+        ):
+            if self.data_do_vencimento <= dtu.date_now_brasilia():
+                self.vencido = True
+            else:
+                self.vencido = False
+        else:
+            self.vencido = False
+
+        # Gera o formato para análise de previsto / realizado no orçamento
+        self.ano_mes_orcamento = self.data_do_lancamento.strftime("%Y-%m")
 
     # Necessário para o funcionamento do __repr__ que é criado automaticamente
     def __str__(self):

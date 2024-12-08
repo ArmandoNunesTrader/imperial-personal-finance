@@ -22,7 +22,6 @@ import re
 
 from src.domain.entities.lancamentos import Lancamentos
 
-import src.utils.datetime_utils as dtu
 import src.utils.validate_utils as vdu
 
 
@@ -35,8 +34,9 @@ def test_create():
         id_centro_de_custo=uuid4(),
         tipo_de_moeda="EUR",
         valor=65498.12,
-        descricao_situacao_do_lancamento="Recebido",
+        descricao_situacao_do_lancamento="A Receber",
         descricao_tipo_de_lancamento="Lançamento de Investimento",
+        data_do_vencimento=datetime(2024, 1, 1, 0, 0, 0, 0).date(),
     )
 
     assert vdu.is_valid_uuid(obj_lancamento.id_lancamento)
@@ -46,10 +46,8 @@ def test_create():
     assert isinstance(obj_lancamento.updated_at, datetime)
     assert str(obj_lancamento) is not None
 
-    date = dtu.date_dd_mm_yyyy(dtu.date_now_brasilia())
     mask = re.compile(
-        "^ID: [a-f0-9-]{36} - Data do Vencimento: "
-        + date
+        "^ID: [a-f0-9-]{36} - Data do Vencimento: 01-01-2024"
         + " - Descrição: Compra de Mercado - Valor: € 65,498.12$"
     )
 

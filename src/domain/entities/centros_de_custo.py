@@ -20,15 +20,26 @@ from uuid import UUID, uuid4
 from datetime import datetime
 
 import src.utils.datetime_utils as dtu
+from src.domain.entities.lancamentos import Lancamentos
 
 
 @dataclass
 class CentrosDeCusto:
-    id_centro_de_custo: UUID = field(default_factory=uuid4)
-    sigla: str
-    descricao: str
-    created_at: datetime = field(default_factory=dtu.dt_now_utc())
-    updated_at: datetime = field(default_factory=dtu.dt_now_utc())
+    sigla: str = field(repr=True, compare=True)
+    descricao: str = field(repr=True, compare=True)
+    # Campos com valor default devem ser os últimos
+    id_centro_de_custo: UUID = field(
+        repr=True, compare=True, init=False, default_factory=uuid4
+    )
+    lancamentos: list[Lancamentos] = field(
+        repr=True, compare=True, init=False, default_factory=list
+    )
+    created_at: datetime = field(
+        repr=True, compare=True, init=False, default=dtu.dt_now_utc()
+    )
+    updated_at: datetime = field(
+        repr=True, compare=True, init=False, default=dtu.dt_now_utc()
+    )
 
     # Necessário para o funcionamento do __repr__ que é criado automaticamente
     def __str__(self):

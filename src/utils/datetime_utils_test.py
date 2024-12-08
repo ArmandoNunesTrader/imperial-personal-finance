@@ -22,6 +22,15 @@ import pytz
 import src.utils.datetime_utils as fdtu
 
 
+utc_aux = datetime(2024, 12, 1, 18, 50, 45, 0, tzinfo=pytz.UTC)
+utc_aux_f = datetime(2024, 12, 1, 15, 50, 45, 0)
+
+brasilia_aux = datetime(
+    2024, 12, 1, 15, 50, 45, 0, tzinfo=pytz.timezone("America/Sao_Paulo")
+)
+brasilia_aux_f = datetime(2024, 12, 1, 18, 50, 45, 0)
+
+
 def test_dt_now_utc():
     assert fdtu.dt_now_utc() == datetime.now(timezone.utc)
 
@@ -82,3 +91,11 @@ def test_datetime_dd_mm_yyyy_hh_mm_ss():
     assert (
         fdtu.datetime_dd_mm_yyyy_hh_mm_ss(now_aux) == now_out_date + " " + now_out_time
     )
+
+
+def test_dt_from_utc_to_brasilia():
+    assert fdtu.dt_from_utc_to_brasilia(utc_aux) == utc_aux_f
+
+
+def test_dt_from_brasilia_to_utc():
+    assert fdtu.dt_from_brasila_to_utc(brasilia_aux) == brasilia_aux_f

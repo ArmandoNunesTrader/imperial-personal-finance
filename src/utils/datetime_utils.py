@@ -15,9 +15,9 @@
     ============================================================================
 """
 
-import pytz
-
 from datetime import datetime, timezone
+
+import pytz
 
 
 # Obtém a data/hora atual no padrão UTC
@@ -77,7 +77,7 @@ def time_hh_mm_ss(time_in: datetime.time) -> str:
     return dt_in
 
 
-# Format um campo datetime no formato dd-mm-aaaa hh:mm:ss
+# Formata um campo datetime no formato dd-mm-aaaa hh:mm:ss
 def datetime_dd_mm_yyyy_hh_mm_ss(datetime_in: datetime) -> str:
     date_in = datetime_in.date()
     time_in = datetime_in.time()
@@ -85,3 +85,24 @@ def datetime_dd_mm_yyyy_hh_mm_ss(datetime_in: datetime) -> str:
     result = "{} {}".format(date_dd_mm_yyyy(date_in), time_hh_mm_ss(time_in))
 
     return result
+
+
+# Converte um datetime do horário UTC para o horário de Brasília
+def dt_from_utc_to_brasilia(my_dt: datetime) -> datetime:
+    # Aqui geramos e tratamos o timestamp para deixar em UTC
+    #   já que o fromtimestamp gera com base na hora local sempre
+    utc_aux = my_dt.replace(tzinfo=pytz.utc).timestamp()
+    utc_timestamp = utc_aux
+
+    return datetime.fromtimestamp(utc_timestamp)
+
+
+# Converte um datetime do horário de Brasília para o horário UTC
+def dt_from_brasila_to_utc(my_dt: datetime) -> datetime:
+    # Aqui geramos e tratamos o timestamp adicionado o dobro da
+    #   diferença de fuso
+    #   já que o fromtimestamp gera com base na hora local sempre
+    utc_aux = my_dt.replace(tzinfo=pytz.utc).timestamp()
+    utc_timestamp = utc_aux + (6 * 3600)
+
+    return datetime.fromtimestamp(utc_timestamp)
