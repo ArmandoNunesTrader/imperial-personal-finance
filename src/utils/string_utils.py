@@ -11,9 +11,11 @@
 
 """
     ============================================================================
-        Classe de funções utilitárias diversas de tratamento de string
+        Funções utilitárias diversas de tratamento de string
     ============================================================================
 """
+
+import src.utils.math_utils as mtu
 
 
 def string_repeat(s: str, num: int) -> str:
@@ -73,3 +75,13 @@ def pad_str_right(str: str, len: int, char: str = " "):
 #   alinhando ao centro para um tamanho definido
 def pad_str_center(str: str, len: int, char: str = " "):
     return str.center(len, char)
+
+
+# Format um valor para o padrão monetário pt_br do Brasil
+def real_br_money_mask(my_value: any):
+    value = float(my_value) if (mtu.is_float(my_value) | (mtu.is_int(my_value))) else 0
+
+    a = "{:,.2f}".format(value)
+    b = a.replace(",", "v")
+    c = b.replace(".", ",")
+    return "R$ " + c.replace("v", ".")

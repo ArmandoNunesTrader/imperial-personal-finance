@@ -11,7 +11,7 @@
 
 """
     ============================================================================
-        Classe de funções diversas de tratamento de data/hora
+        Funções diversas de tratamento de data/hora
     ============================================================================
 """
 

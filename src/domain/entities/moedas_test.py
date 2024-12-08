@@ -19,25 +19,23 @@ from datetime import datetime
 
 import re
 
-from uuid import UUID
 from src.domain.entities.moedas import Moedas
 
-
-def is_valid_uuid(val):
-    try:
-        UUID(str(val))
-        return True
-    except ValueError:
-        return False
+import src.utils.validate_utils as vdu
 
 
 def test_create():
-    obj_moeda = Moedas(sigla="Moeda", descricao="Moeda de Teste")
+    obj_moeda = Moedas(
+        sigla="Moeda",
+        descricao="Moeda de Teste",
+        tipo_de_moeda="USD",
+        valor_da_paridade=5.67,
+    )
 
-    assert is_valid_uuid(obj_moeda.id_moeda)
+    assert vdu.is_valid_uuid(obj_moeda.id_moeda)
     assert obj_moeda.sigla == "Moeda"
     assert obj_moeda.descricao == "Moeda de Teste"
-    assert obj_moeda.paridade_com_real_brasileiro.formatada == "R$ 1,00"
+    assert obj_moeda.paridade_com_real_brasileiro.formatada == "$ 5.67"
     assert isinstance(obj_moeda.created_at, datetime)
     assert isinstance(obj_moeda.updated_at, datetime)
     assert str(obj_moeda) is not None
@@ -45,3 +43,6 @@ def test_create():
     mask = re.compile("^ID: [a-f0-9-]{36} - Sigla: Moeda - Descrição: Moeda de Teste$")
 
     assert re.fullmatch(mask, str(obj_moeda))
+
+    # Colocar como is None para ver os detalhes após a criação
+    assert obj_moeda is not None

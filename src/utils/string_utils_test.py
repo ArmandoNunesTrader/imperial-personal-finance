@@ -66,3 +66,10 @@ def test_pad_str_right():
 
 def test_pad_str_center():
     assert fsu.pad_str_center(str_aux_1, 15, "-") == "--Minha String-"
+
+
+def test_real_br_money_mask():
+    assert fsu.real_br_money_mask(0.01) == "R$ 0,01"
+    assert fsu.real_br_money_mask(123456789.12) == "R$ 123.456.789,12"
+    assert fsu.real_br_money_mask(1) == "R$ 1,00"
+    assert fsu.real_br_money_mask("a") == "R$ 0,00"

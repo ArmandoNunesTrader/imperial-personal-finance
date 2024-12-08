@@ -11,7 +11,7 @@
 
 """
     ============================================================================
-        Classe de funções utilitárias diversas para manipulação de paths
+        Funções utilitárias diversas para manipulação de paths
     ============================================================================
 """
 import os
