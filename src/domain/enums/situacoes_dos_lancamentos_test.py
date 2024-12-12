@@ -28,10 +28,10 @@ def test_create():
     assert obj_2.value == "Pago"
     assert obj_3.value == "A Receber"
     assert obj_4.value == "A Pagar"
-    assert obj_1.name("Recebido") == "RECEBIDO"
-    assert obj_2.name("Pago") == "PAGO"
-    assert obj_3.name("A Receber") == "A_RECEBER"
-    assert obj_4.name("A Pagar") == "A_PAGAR"
+    assert obj_1.value_to_name("Recebido") == "RECEBIDO"
+    assert obj_2.value_to_name("Pago") == "PAGO"
+    assert obj_3.value_to_name("A Receber") == "A_RECEBER"
+    assert obj_4.value_to_name("A Pagar") == "A_PAGAR"
     assert SituacoesDosLancamentos["RECEBIDO"] is SituacoesDosLancamentos.RECEBIDO
     assert SituacoesDosLancamentos["PAGO"] is SituacoesDosLancamentos.PAGO
     assert SituacoesDosLancamentos["A_RECEBER"] is SituacoesDosLancamentos.A_RECEBER
@@ -40,3 +40,16 @@ def test_create():
     assert SituacoesDosLancamentos("Pago") is SituacoesDosLancamentos.PAGO
     assert SituacoesDosLancamentos("A Receber") is SituacoesDosLancamentos.A_RECEBER
     assert SituacoesDosLancamentos("A Pagar") is SituacoesDosLancamentos.A_PAGAR
+
+    assert SituacoesDosLancamentos.all_names() == [
+        "RECEBIDO",
+        "PAGO",
+        "A_RECEBER",
+        "A_PAGAR",
+    ]
+    assert SituacoesDosLancamentos.all_values() == [
+        "Recebido",
+        "Pago",
+        "A Receber",
+        "A Pagar",
+    ]

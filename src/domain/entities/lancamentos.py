@@ -130,3 +130,22 @@ class Lancamentos:
             self.descricao,
             self.valor_do_lancamento.formatada,
         )
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Lancamentos):
+            return False
+
+        return (
+            (self.id_lancamento == other.id_lancamento)
+            and (self.descricao == other.descricao)
+            and (self.id_plano_de_contas == other.id_plano_de_contas)
+            and (self.id_conta == other.id_conta)
+            and (self.id_cartao_de_credito == other.id_cartao_de_credito)
+            and (self.id_centro_de_custo == other.id_centro_de_custo)
+            and (
+                self.valor_do_lancamento.formatada
+                == other.valor_do_lancamento.formatada
+            )
+            and (self.data_do_lancamento == other.data_do_lancamento)
+            and (self.data_do_vencimento == other.data_do_vencimento)
+        )

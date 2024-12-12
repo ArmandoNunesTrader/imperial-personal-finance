@@ -55,6 +55,7 @@ def test_create():
         descricao_situacao_do_lancamento="A Receber",
         descricao_tipo_de_lancamento="Lançamento de Investimento",
     )
+    obj_lancamento_clone = obj_lancamento_1
 
     assert vdu.is_valid_uuid(obj_lancamento_1.id_lancamento)
     assert obj_lancamento_1.descricao == "Compra de Mercado"
@@ -142,3 +143,6 @@ def test_create():
     assert str(obj_lancamento_4) is not None
 
     assert re.fullmatch(mask_4, str(obj_lancamento_4))
+
+    assert obj_lancamento_1 == obj_lancamento_clone
+    assert obj_lancamento_1 != [obj_lancamento_1, obj_lancamento_clone]

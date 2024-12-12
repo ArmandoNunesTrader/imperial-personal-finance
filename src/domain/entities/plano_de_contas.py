@@ -110,3 +110,15 @@ class PlanoDeContas:
             self.categoria_de_contas.value,
             self.grupo_de_contas.value,
         )
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, PlanoDeContas):
+            return False
+
+        return (
+            (self.id_plano_de_contas == other.id_plano_de_contas)
+            and (self.codigo_contabil == other.codigo_contabil)
+            and (self.descricao == other.descricao)
+            and (self.categoria_de_contas.value == other.categoria_de_contas.value)
+            and (self.grupo_de_contas.value == other.grupo_de_contas.value)
+        )

@@ -49,6 +49,7 @@ def test_create():
         descricao_categoria_de_contas="Despesa",
         descricao_grupo_de_contas="2-Passivo",
     )
+    obj_plano_de_contas_clone = obj_plano_de_contas_1
 
     assert vdu.is_valid_uuid(obj_plano_de_contas_1.id_plano_de_contas)
     assert obj_plano_de_contas_1.codigo_contabil == "2."
@@ -105,3 +106,6 @@ def test_create():
     assert str(obj_plano_de_contas_3) is not None
 
     assert re.fullmatch(mask_2, str(obj_plano_de_contas_3))
+
+    assert obj_plano_de_contas_1 == obj_plano_de_contas_clone
+    assert obj_plano_de_contas_1 != [obj_plano_de_contas_1, obj_plano_de_contas_clone]

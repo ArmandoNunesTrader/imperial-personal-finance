@@ -24,21 +24,25 @@ from src.domain.entities.moedas import Moedas
 
 class MoedasRepositorioInterface(ABC):
     @abstractmethod
-    def criar_moeda(moeda: Type[Moedas]) -> Moedas:
+    def criar_moeda(cls, moeda: Type[Moedas]) -> Type[Moedas] | None:
         pass
 
     @abstractmethod
-    def atualizar_moeda(moeda: Type[Moedas]) -> bool:
+    def atualizar_moeda(cls, moeda: Type[Moedas]) -> bool:
         pass
 
     @abstractmethod
-    def excluir_moeda(moeda: Type[Moedas]) -> bool:
+    def excluir_moeda(cls, moeda: Type[Moedas]) -> bool:
         pass
 
     @abstractmethod
-    def obter_moeda_por_id(id_moeda: Type[UUID]) -> List[Moedas]:
+    def obter_moeda_por_id(id_moeda: Type[UUID]) -> Type[Moedas]:
         pass
 
     @abstractmethod
-    def obter_moeda_por_sigla(sigla: str) -> List[Moedas]:
+    def obter_moeda_por_sigla(sigla: str) -> Type[Moedas]:
+        pass
+
+    @abstractmethod
+    def obter_todas_moedas() -> List[Moedas]:
         pass

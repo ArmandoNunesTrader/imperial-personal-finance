@@ -26,12 +26,23 @@ def test_create():
     assert obj_1.value == "Receita"
     assert obj_2.value == "Despesa"
     assert obj_3.value == "Investimento"
-    assert obj_1.name("Receita") == "RECEITA"
-    assert obj_2.name("Despesa") == "DESPESA"
-    assert obj_3.name("Investimento") == "INVESTIMENTO"
+    assert obj_1.value_to_name("Receita") == "RECEITA"
+    assert obj_2.value_to_name("Despesa") == "DESPESA"
+    assert obj_3.value_to_name("Investimento") == "INVESTIMENTO"
     assert CategoriasDeContas["RECEITA"] is CategoriasDeContas.RECEITA
     assert CategoriasDeContas["DESPESA"] is CategoriasDeContas.DESPESA
     assert CategoriasDeContas["INVESTIMENTO"] is CategoriasDeContas.INVESTIMENTO
     assert CategoriasDeContas("Receita") is CategoriasDeContas.RECEITA
     assert CategoriasDeContas("Despesa") is CategoriasDeContas.DESPESA
     assert CategoriasDeContas("Investimento") is CategoriasDeContas.INVESTIMENTO
+
+    assert CategoriasDeContas.all_names() == [
+        "RECEITA",
+        "DESPESA",
+        "INVESTIMENTO",
+    ]
+    assert CategoriasDeContas.all_values() == [
+        "Receita",
+        "Despesa",
+        "Investimento",
+    ]

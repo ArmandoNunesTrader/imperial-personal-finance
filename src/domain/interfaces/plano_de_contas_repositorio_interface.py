@@ -26,7 +26,7 @@ class PlanoDeContasRepositorioInterface(ABC):
     @abstractmethod
     def criar_plano_de_contas(
         plano_de_contas: Type[PlanoDeContas],
-    ) -> PlanoDeContas:
+    ) -> Type[PlanoDeContas]:
         pass
 
     @abstractmethod
@@ -40,11 +40,11 @@ class PlanoDeContasRepositorioInterface(ABC):
     @abstractmethod
     def obter_plano_de_contas_por_id(
         id_plano_de_contas: Type[UUID],
-    ) -> List[PlanoDeContas]:
+    ) -> Type[PlanoDeContas]:
         pass
 
     @abstractmethod
-    def obter_plano_de_contas_por_descricao(descricao: str) -> List[PlanoDeContas]:
+    def obter_plano_de_contas_por_descricao(descricao: str) -> Type[PlanoDeContas]:
         pass
 
     @abstractmethod
@@ -53,4 +53,8 @@ class PlanoDeContasRepositorioInterface(ABC):
 
     @abstractmethod
     def obter_conta_pai(plano_de_contas: Type[PlanoDeContas]) -> List[PlanoDeContas]:
+        pass
+
+    @abstractmethod
+    def obter_todos_planos_de_contas() -> List[PlanoDeContas]:
         pass

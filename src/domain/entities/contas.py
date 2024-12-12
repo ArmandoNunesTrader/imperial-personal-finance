@@ -63,3 +63,14 @@ class Contas:
         repr = "ID: {} - Sigla: {} - Descrição: {}"
 
         return repr.format(self.id_conta, self.sigla, self.descricao)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Contas):
+            return False
+
+        return (
+            (self.id_conta == other.id_conta)
+            and (self.sigla == other.sigla)
+            and (self.descricao == other.descricao)
+            and (self.id_moeda == other.id_moeda)
+        )

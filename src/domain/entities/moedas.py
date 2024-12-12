@@ -57,3 +57,17 @@ class Moedas:
         repr = "ID: {} - Sigla: {} - Descrição: {}"
 
         return repr.format(self.id_moeda, self.sigla, self.descricao)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Moedas):
+            return False
+
+        return (
+            (self.id_moeda == other.id_moeda)
+            and (self.sigla == other.sigla)
+            and (self.descricao == other.descricao)
+            and (
+                self.paridade_com_real_brasileiro.formatada
+                == other.paridade_com_real_brasileiro.formatada
+            )
+        )

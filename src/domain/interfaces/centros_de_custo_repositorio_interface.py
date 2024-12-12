@@ -26,7 +26,7 @@ class CentrosDeCustoRepositorioInterface(ABC):
     @abstractmethod
     def criar_centro_de_custo(
         centro_de_custo: Type[CentrosDeCusto],
-    ) -> CentrosDeCusto:
+    ) -> Type[CentrosDeCusto]:
         pass
 
     @abstractmethod
@@ -40,9 +40,13 @@ class CentrosDeCustoRepositorioInterface(ABC):
     @abstractmethod
     def obter_centro_de_custo_por_id(
         id_centro_de_custo: Type[UUID],
-    ) -> List[CentrosDeCusto]:
+    ) -> Type[CentrosDeCusto]:
         pass
 
     @abstractmethod
-    def obter_centro_de_custo_por_sigla(sigla: str) -> List[CentrosDeCusto]:
+    def obter_centro_de_custo_por_sigla(sigla: str) -> Type[CentrosDeCusto]:
+        pass
+
+    @abstractmethod
+    def obter_todos_centros_de_custo() -> List[CentrosDeCusto]:
         pass

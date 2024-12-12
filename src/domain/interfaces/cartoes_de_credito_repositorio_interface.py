@@ -26,7 +26,7 @@ class CartoesDeCreditoRepositorioInterface(ABC):
     @abstractmethod
     def criar_cartao_de_credito(
         cartao_de_credito: Type[CartoesDeCredito],
-    ) -> CartoesDeCredito:
+    ) -> Type[CartoesDeCredito]:
         pass
 
     @abstractmethod
@@ -40,13 +40,17 @@ class CartoesDeCreditoRepositorioInterface(ABC):
     @abstractmethod
     def obter_cartao_de_credito_por_id(
         id_cartao_de_credito: Type[UUID],
-    ) -> List[CartoesDeCredito]:
+    ) -> Type[CartoesDeCredito]:
         pass
 
     @abstractmethod
-    def obter_cartao_de_credito_por_nome(nome: str) -> List[CartoesDeCredito]:
+    def obter_cartao_de_credito_por_nome(nome: str) -> Type[CartoesDeCredito]:
         pass
 
     @abstractmethod
-    def obter_cartao_de_credito_por_numero(numero: str) -> List[CartoesDeCredito]:
+    def obter_cartao_de_credito_por_numero(numero: str) -> Type[CartoesDeCredito]:
+        pass
+
+    @abstractmethod
+    def obter_todos_cartoes_de_credito() -> List[CartoesDeCredito]:
         pass

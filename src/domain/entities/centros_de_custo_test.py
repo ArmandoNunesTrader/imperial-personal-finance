@@ -29,6 +29,7 @@ def test_create():
         sigla="Eu",
         descricao="O Usuário do Sistema",
     )
+    obj_centro_de_custo_clone = obj_centro_de_custo
 
     assert vdu.is_valid_uuid(obj_centro_de_custo.id_centro_de_custo)
     assert obj_centro_de_custo.sigla == "Eu"
@@ -46,3 +47,6 @@ def test_create():
 
     # Colocar como is None para ver os detalhes após a criação
     assert obj_centro_de_custo is not None
+
+    assert obj_centro_de_custo == obj_centro_de_custo_clone
+    assert obj_centro_de_custo != [obj_centro_de_custo, obj_centro_de_custo_clone]

@@ -26,12 +26,19 @@ def test_create():
     assert obj_1.value == "Real Brasileiro"
     assert obj_2.value == "Dólar Americano"
     assert obj_3.value == "Euro"
-    assert obj_1.name("Real Brasileiro") == "BRL"
-    assert obj_2.name("Dólar Americano") == "USD"
-    assert obj_3.name("Euro") == "EUR"
+    assert obj_1.value_to_name("Real Brasileiro") == "BRL"
+    assert obj_2.value_to_name("Dólar Americano") == "USD"
+    assert obj_3.value_to_name("Euro") == "EUR"
     assert TiposDeMoedas["BRL"] is TiposDeMoedas.BRL
     assert TiposDeMoedas["USD"] is TiposDeMoedas.USD
     assert TiposDeMoedas["EUR"] is TiposDeMoedas.EUR
     assert TiposDeMoedas("Real Brasileiro") is TiposDeMoedas.BRL
     assert TiposDeMoedas("Dólar Americano") is TiposDeMoedas.USD
     assert TiposDeMoedas("Euro") is TiposDeMoedas.EUR
+
+    assert TiposDeMoedas.all_names() == ["BRL", "USD", "EUR"]
+    assert TiposDeMoedas.all_values() == [
+        "Real Brasileiro",
+        "Dólar Americano",
+        "Euro",
+    ]

@@ -31,6 +31,7 @@ def test_create():
         tipo_de_moeda="USD",
         valor_da_paridade=5.67,
     )
+    obj_moeda_clone = obj_moeda
 
     assert vdu.is_valid_uuid(obj_moeda.id_moeda)
     assert obj_moeda.sigla == "Moeda"
@@ -46,3 +47,6 @@ def test_create():
 
     # Colocar como is None para ver os detalhes após a criação
     assert obj_moeda is not None
+
+    assert obj_moeda == obj_moeda_clone
+    assert obj_moeda != [obj_moeda, obj_moeda]

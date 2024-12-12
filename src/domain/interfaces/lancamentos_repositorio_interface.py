@@ -24,7 +24,7 @@ from src.domain.entities.lancamentos import Lancamentos
 
 class LancamentosRepositorioInterface(ABC):
     @abstractmethod
-    def criar_lancamento(lancamento: Type[Lancamentos]) -> Lancamentos:
+    def criar_lancamento(lancamento: Type[Lancamentos]) -> Type[Lancamentos]:
         pass
 
     @abstractmethod
@@ -36,7 +36,7 @@ class LancamentosRepositorioInterface(ABC):
         pass
 
     @abstractmethod
-    def obter_lancamento_por_id(id_lancamento: Type[UUID]) -> List[Lancamentos]:
+    def obter_lancamento_por_id(id_lancamento: Type[UUID]) -> Type[Lancamentos]:
         pass
 
     @abstractmethod
@@ -83,4 +83,8 @@ class LancamentosRepositorioInterface(ABC):
 
     @abstractmethod
     def obter_lancamentos_efetivados() -> List[Lancamentos]:
+        pass
+
+    @abstractmethod
+    def obter_todos_lancamentos() -> List[Lancamentos]:
         pass

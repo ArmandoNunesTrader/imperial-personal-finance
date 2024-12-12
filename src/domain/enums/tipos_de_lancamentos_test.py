@@ -28,10 +28,10 @@ def test_create():
     assert obj_2.value == "Lançamento de Despesa"
     assert obj_3.value == "Lançamento de Investimento"
     assert obj_4.value == "Outro Lançamento"
-    assert obj_1.name("Lançamento de Receita") == "RECEITA"
-    assert obj_2.name("Lançamento de Despesa") == "DESPESA"
-    assert obj_3.name("Lançamento de Investimento") == "INVESTIMENTO"
-    assert obj_4.name("Outro Lançamento") == "OUTRO"
+    assert obj_1.value_to_name("Lançamento de Receita") == "RECEITA"
+    assert obj_2.value_to_name("Lançamento de Despesa") == "DESPESA"
+    assert obj_3.value_to_name("Lançamento de Investimento") == "INVESTIMENTO"
+    assert obj_4.value_to_name("Outro Lançamento") == "OUTRO"
     assert TiposDeLancamentos["RECEITA"] is TiposDeLancamentos.RECEITA
     assert TiposDeLancamentos["DESPESA"] is TiposDeLancamentos.DESPESA
     assert TiposDeLancamentos["INVESTIMENTO"] is TiposDeLancamentos.INVESTIMENTO
@@ -43,3 +43,16 @@ def test_create():
         is TiposDeLancamentos.INVESTIMENTO
     )
     assert TiposDeLancamentos("Outro Lançamento") is TiposDeLancamentos.OUTRO
+
+    assert TiposDeLancamentos.all_names() == [
+        "RECEITA",
+        "DESPESA",
+        "INVESTIMENTO",
+        "OUTRO",
+    ]
+    assert TiposDeLancamentos.all_values() == [
+        "Lançamento de Receita",
+        "Lançamento de Despesa",
+        "Lançamento de Investimento",
+        "Outro Lançamento",
+    ]

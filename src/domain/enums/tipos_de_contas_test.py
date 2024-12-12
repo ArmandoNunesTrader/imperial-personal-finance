@@ -28,10 +28,10 @@ def test_create():
     assert obj_2.value == "Conta Corrente Bancária"
     assert obj_3.value == "Conta de Investimento"
     assert obj_4.value == "Conta Caixa"
-    assert obj_1.name("Conta de Ativo") == "ATIVO"
-    assert obj_2.name("Conta Corrente Bancária") == "BANCO"
-    assert obj_3.name("Conta de Investimento") == "INVESTIMENTO"
-    assert obj_4.name("Conta Caixa") == "CAIXA"
+    assert obj_1.value_to_name("Conta de Ativo") == "ATIVO"
+    assert obj_2.value_to_name("Conta Corrente Bancária") == "BANCO"
+    assert obj_3.value_to_name("Conta de Investimento") == "INVESTIMENTO"
+    assert obj_4.value_to_name("Conta Caixa") == "CAIXA"
     assert TiposDeContas["ATIVO"] is TiposDeContas.ATIVO
     assert TiposDeContas["BANCO"] is TiposDeContas.BANCO
     assert TiposDeContas["INVESTIMENTO"] is TiposDeContas.INVESTIMENTO
@@ -40,3 +40,16 @@ def test_create():
     assert TiposDeContas("Conta Corrente Bancária") is TiposDeContas.BANCO
     assert TiposDeContas("Conta de Investimento") is TiposDeContas.INVESTIMENTO
     assert TiposDeContas("Conta Caixa") is TiposDeContas.CAIXA
+
+    assert TiposDeContas.all_names() == [
+        "ATIVO",
+        "BANCO",
+        "INVESTIMENTO",
+        "CAIXA",
+    ]
+    assert TiposDeContas.all_values() == [
+        "Conta de Ativo",
+        "Conta Corrente Bancária",
+        "Conta de Investimento",
+        "Conta Caixa",
+    ]

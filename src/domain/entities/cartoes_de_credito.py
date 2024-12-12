@@ -83,3 +83,16 @@ class CartoesDeCredito:
             self.data_de_validade,
             stu.pad_str_left(self.dia_de_vencimento, 2, "0"),
         )
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, CartoesDeCredito):
+            return False
+
+        return (
+            (self.id_cartao_de_credito == other.id_cartao_de_credito)
+            and (self.sigla == other.sigla)
+            and (self.nome == other.nome)
+            and (self.numero == other.numero)
+            and (self.limite_de_credito.formatada == other.limite_de_credito.formatada)
+            and (self.id_moeda == other.id_moeda)
+        )

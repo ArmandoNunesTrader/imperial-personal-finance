@@ -24,7 +24,7 @@ from src.domain.entities.contas import Contas
 
 class ContasRepositorioInterface(ABC):
     @abstractmethod
-    def criar_conta(conta: Type[Contas]) -> Contas:
+    def criar_conta(conta: Type[Contas]) -> Type[Contas]:
         pass
 
     @abstractmethod
@@ -36,9 +36,13 @@ class ContasRepositorioInterface(ABC):
         pass
 
     @abstractmethod
-    def obter_conta_por_id(id_conta: Type[UUID]) -> List[Contas]:
+    def obter_conta_por_id(id_conta: Type[UUID]) -> Type[Contas]:
         pass
 
     @abstractmethod
-    def obter_conta_por_sigla(sigla: str) -> List[Contas]:
+    def obter_conta_por_sigla(sigla: str) -> Type[Contas]:
+        pass
+
+    @abstractmethod
+    def obter_todas_contas() -> List[Contas]:
         pass

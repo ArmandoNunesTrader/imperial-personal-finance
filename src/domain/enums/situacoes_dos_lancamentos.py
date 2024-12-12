@@ -16,6 +16,7 @@
 """
 
 from enum import StrEnum
+from typing import List
 
 
 class SituacoesDosLancamentos(StrEnum):
@@ -25,7 +26,15 @@ class SituacoesDosLancamentos(StrEnum):
     A_PAGAR = "A Pagar"
 
     @classmethod
-    def name(cls, val):
+    def value_to_name(cls, val):
         return {v: k for k, v in dict(vars(cls)).items() if isinstance(v, str)}.get(
             val, None
         )
+
+    @classmethod
+    def all_names(cls) -> List:
+        return [elem.name for elem in cls]
+
+    @classmethod
+    def all_values(cls) -> List:
+        return [elem.value for elem in cls]

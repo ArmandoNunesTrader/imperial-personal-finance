@@ -37,6 +37,7 @@ def test_create():
         tipo_de_moeda="EUR",
         valor=65498.12,
     )
+    obj_cartao_de_credito_clone = obj_cartao_de_credito
 
     assert vdu.is_valid_uuid(obj_cartao_de_credito.id_cartao_de_credito)
     assert obj_cartao_de_credito.sigla == "VISA Mercado Livre"
@@ -65,3 +66,6 @@ def test_create():
 
     # Colocar como is None para ver os detalhes após a criação
     assert obj_cartao_de_credito is not None
+
+    assert obj_cartao_de_credito == obj_cartao_de_credito_clone
+    assert obj_cartao_de_credito != [obj_cartao_de_credito, obj_cartao_de_credito_clone]
