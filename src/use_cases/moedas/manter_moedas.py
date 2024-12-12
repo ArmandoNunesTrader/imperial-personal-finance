@@ -30,6 +30,8 @@ from src.use_cases.validators.moedas_validators import moedas_dto_in_validator
 from src.errors.errors_handler import handler_errors
 from src.errors.moedas_errors import MoedaNaoInformada
 
+from src.utils.sanitize_utils import sanitize_pt_br_phrase as sanitize
+
 
 class CriarMoeda:
     def __init__(self, repo: type[MoedasRepositorioInterface]):
@@ -42,9 +44,9 @@ class CriarMoeda:
         try:
             moedas_dto_in_validator(moeda_dto_in)
             obj_moeda = Moedas(
-                moeda_dto_in.to_dict()["sigla"],
-                moeda_dto_in.to_dict()["descricao"],
-                moeda_dto_in.to_dict()["tipo_de_moeda"],
+                sanitize(moeda_dto_in.to_dict()["sigla"]),
+                sanitize(moeda_dto_in.to_dict()["descricao"]),
+                sanitize(moeda_dto_in.to_dict()["tipo_de_moeda"]).upper(),
                 moeda_dto_in.to_dict()["valor_da_paridade"],
             )
             return self.repo.criar_moeda(obj_moeda)

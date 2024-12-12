@@ -4,6 +4,7 @@ colorama==0.4.6
 coverage==7.6.9
 DateTime==5.5
 distlib==0.3.9
+emoji==2.14.0
 filelock==3.16.1
 flake8==7.1.1
 identify==2.6.3
