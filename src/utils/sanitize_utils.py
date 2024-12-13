@@ -89,13 +89,20 @@ def sanitize_remove_repeated_chars(str_in: str) -> str:
 
 def sanitize_capitalize_without_pt_br_prepositions(str_in: str) -> str:
     p = ["da", "de", "di", "do", "du", "para", "o", "a", "os", "as", "e"]
-    return " ".join(
+    result = " ".join(
         list(map(lambda w: w if w in p else w.capitalize(), str_in.split()))
     )
 
+    result = result.split()
+    if result[0] in p:
+        result[0] = result[0].title()
 
-def sanitize_pt_br_phrase(str_in: str) -> str:
-    aux = sanitize_remove_a_tag(str_in)
+    return " ".join(result)
+
+
+def sanitize_pt_br_phrase_capitalize(str_in: str) -> str:
+    aux = sanitize_str_to_lower(str_in)
+    aux = sanitize_remove_a_tag(aux)
     aux = sanitize_remove_extra_spaces_tabs_and_line_breaks(aux)
     aux = sanitize_remove_all_html_tags(aux)
     aux = sanitize_remove_non_alphabetic(aux)
@@ -105,3 +112,9 @@ def sanitize_pt_br_phrase(str_in: str) -> str:
     aux = sanitize_capitalize_without_pt_br_prepositions(aux)
 
     return aux
+
+
+def sanitize_pt_br_phrase_upper(str_in: str) -> str:
+    aux = sanitize_capitalize_without_pt_br_prepositions(str_in)
+
+    return aux.upper()

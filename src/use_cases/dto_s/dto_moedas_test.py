@@ -22,9 +22,9 @@ import src.utils.sanitize_utils as fsn
 
 def test_dto_moedas_in():
     dict_1 = {
-        "sigla": fsn.sanitize_pt_br_phrase("Sigla Moeda"),
-        "descricao": fsn.sanitize_pt_br_phrase("Descrição Moeda de Testes"),
-        "tipo_de_moeda": fsn.sanitize_pt_br_phrase("BRL").upper(),
+        "sigla": fsn.sanitize_pt_br_phrase_capitalize("Sigla Moeda"),
+        "descricao": fsn.sanitize_pt_br_phrase_capitalize("Descrição Moeda de Testes"),
+        "tipo_de_moeda": fsn.sanitize_pt_br_phrase_upper("BRL"),
         "valor_da_paridade": 1.00,
     }
     obj_1 = MoedaDTOIn().from_dict(dict_1)

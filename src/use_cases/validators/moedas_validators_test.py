@@ -22,7 +22,7 @@ from src.use_cases.validators.moedas_validators import moedas_dto_in_validator
 def test_moeda_validators_ok():
     obj_1 = MoedaDTOIn.from_dict(
         {
-            "sigla": "Moeda",
+            "sigla": "Testes",
             "descricao": "Moeda de Testes",
             "tipo_de_moeda": "USD",
             "valor_da_paridade": 5.46,

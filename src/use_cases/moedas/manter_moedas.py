@@ -30,23 +30,26 @@ from src.use_cases.validators.moedas_validators import moedas_dto_in_validator
 from src.errors.errors_handler import handler_errors
 from src.errors.moedas_errors import MoedaNaoInformada
 
-from src.utils.sanitize_utils import sanitize_pt_br_phrase as sanitize
+from src.utils.sanitize_utils import (
+    sanitize_pt_br_phrase_capitalize,
+    sanitize_pt_br_phrase_upper,
+)
 
 
 class CriarMoeda:
     def __init__(self, repo: type[MoedasRepositorioInterface]):
         self.repo = repo
 
-    def execute(self, moeda_dto_in: Type[MoedaDTOIn]) -> Type[Moedas]:
+    def execute(self, moeda_dto_in: Type[MoedaDTOIn]) -> Type[Moedas] | str:
         if is_null_or_empty(moeda_dto_in):
             raise MoedaNaoInformada("Moeda não informada!")
 
         try:
             moedas_dto_in_validator(moeda_dto_in)
             obj_moeda = Moedas(
-                sanitize(moeda_dto_in.to_dict()["sigla"]),
-                sanitize(moeda_dto_in.to_dict()["descricao"]),
-                sanitize(moeda_dto_in.to_dict()["tipo_de_moeda"]).upper(),
+                sanitize_pt_br_phrase_capitalize(moeda_dto_in.to_dict()["sigla"]),
+                sanitize_pt_br_phrase_capitalize(moeda_dto_in.to_dict()["descricao"]),
+                sanitize_pt_br_phrase_upper(moeda_dto_in.to_dict()["tipo_de_moeda"]),
                 moeda_dto_in.to_dict()["valor_da_paridade"],
             )
             return self.repo.criar_moeda(obj_moeda)

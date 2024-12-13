@@ -132,7 +132,7 @@ def test_sanitize_capitalize_without_pt_br_prepositions():
     )
 
 
-def test_sanitize_pt_br_phrase():
+def test_sanitize_pt_br_phrase_capitalize():
     str_aux = (
         str_aux_7
         + str_aux_8
@@ -143,14 +143,19 @@ def test_sanitize_pt_br_phrase():
         + str_aux_15
     )
     str_aux_o = (
-        "A Text Sample A Lot Of Text With Numbers "
+        "A Text Sample a Lot Of Text With Numbers "
         + "And Words Text Love de Python para Mulheres"
     )
 
-    assert fsn.sanitize_pt_br_phrase(str_aux) == str_aux_o
-    assert fsn.sanitize_pt_br_phrase("Sigla Moeda") == "Sigla Moeda"
+    assert fsn.sanitize_pt_br_phrase_capitalize("Sigla Moeda") == "Sigla Moeda"
     assert (
-        fsn.sanitize_pt_br_phrase("Descrição Moeda de Testes")
+        fsn.sanitize_pt_br_phrase_capitalize("Descrição Moeda de Testes")
         == "Descrição Moeda de Testes"
     )
-    assert fsn.sanitize_pt_br_phrase("BRL").upper() == "BRL"
+    assert fsn.sanitize_pt_br_phrase_capitalize("BRL") == "Brl"
+
+    assert fsn.sanitize_pt_br_phrase_capitalize(str_aux) == str_aux_o
+
+
+def test_sanitize_pt_br_phrase_upper():
+    assert fsn.sanitize_pt_br_phrase_upper("BRL") == "BRL"

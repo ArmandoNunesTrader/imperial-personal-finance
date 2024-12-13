@@ -11,7 +11,7 @@
 
 """
     ============================================================================
-        Repositório mockado de Moedas
+        Repositório mockado da entidade Moedas
     ============================================================================
 """
 from uuid import UUID
