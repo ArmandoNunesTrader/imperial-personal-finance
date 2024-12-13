@@ -15,61 +15,30 @@
     ============================================================================
 """
 
-from src.use_cases.moedas.manter_moedas import AtualizarMoeda
 from src.use_cases.dto_s.dto_moedas import MoedaDTOIn
+from src.use_cases.moedas.manter_moedas import AtualizarMoeda
 from src.adapters.http.http_types.http_request import HttpRequest
 from src.adapters.http.interfaces.controller_interface import ControllerInterface
 from src.adapters.http.http_types.http_response import HttpResponse
+from src.adapters.http.presenters.moedas_presenters import moedas_presenter_one
 
 from typing import Type
 
 
-class ExcluirMoedaController(ControllerInterface):
+class AtualizarMoedaController(ControllerInterface):
     def __init__(self, use_case: Type[AtualizarMoeda]) -> None:
         self.__use_case = use_case
 
     def handle(self, http_request: type[HttpRequest]) -> HttpResponse:
-        dto_in = MoedaDTOIn.from_dict(
-            {
-                http_request.query_params["sigla"],
-                http_request.query_params["descricao"],
-                http_request.query_params["tipo_de_moeda"],
-                http_request.query_params["valor_da_paridade"],
-            }
-        )
+        dict_http = {
+            http_request.query_params["id_moeda"],
+            http_request.query_params["sigla"],
+            http_request.query_params["descricao"],
+            http_request.query_params["tipo_de_moeda"],
+            http_request.query_params["valor_da_paridade"],
+        }
+
+        dto_in = MoedaDTOIn().from_dict(dict_http)
         response = self.__use_case.execute(dto_in)
 
-        return self.__presenter(response)
-
-    def __presenter(self, response: any) -> HttpResponse:
-        if isinstance(response, bool):
-            return HttpResponse(
-                status_code=200,
-                body={
-                    "type": "Moedas",
-                    "count": 1,
-                    "message": "Moeda alterada com sucesso!",
-                    "attributes": None,
-                },
-            )
-
-        if isinstance(response, str):
-            return HttpResponse(
-                status_code=response["status_code"],
-                body={
-                    "type": "Moedas",
-                    "count": 0,
-                    "message": response["body"],
-                    "attributes": None,
-                },
-            )
-
-        return HttpResponse(
-            status_code=500,
-            body={
-                "type": "Moedas",
-                "count": 0,
-                "message": "Ocorreu um erro desconhecido no servidor!",
-                "attributes": None,
-            },
-        )
+        return moedas_presenter_one(response)

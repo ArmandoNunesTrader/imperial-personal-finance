@@ -18,7 +18,7 @@
 from src.adapters.http.http_types.http_request import HttpRequest
 
 
-class HTTPRequestCriarMoeda(HttpRequest):
+class HTTPRequestMoeda(HttpRequest):
     def __init__(
         self,
         headers: str = None,

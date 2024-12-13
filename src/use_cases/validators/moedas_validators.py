@@ -18,12 +18,15 @@
 from cerberus import Validator
 from typing import Type
 
+from src.domain.entities.moedas import Moedas
 from src.domain.enums.tipos_de_moedas import TiposDeMoedas
 from src.use_cases.dto_s.dto_moedas import MoedaDTOIn
 from src.errors.moedas_errors import MoedaErrosDeValidacao
 
 
-def moedas_dto_in_validator(dto_in: Type[MoedaDTOIn]):
+def moedas_dto_in_validator(
+    dto_in: Type[MoedaDTOIn] = None, moeda: Type[Moedas] = None
+):
     tipos_de_moedas_list = TiposDeMoedas.all_names()
     validator_schema = Validator(
         {
@@ -59,6 +62,17 @@ def moedas_dto_in_validator(dto_in: Type[MoedaDTOIn]):
         }
     )
 
-    response = validator_schema.validate(dto_in.to_dict())
+    if dto_in is not None:
+        response = validator_schema.validate(dto_in.to_dict())
+    elif moeda is not None:
+        response = validator_schema.validate(
+            {
+                "sigla": moeda.sigla,
+                "descricao": moeda.descricao,
+                "tipo_de_moeda": moeda.tipo_de_moeda,
+                "valor_da_paridade": moeda.valor_da_paridade,
+            }
+        )
+
     if response is False:
         raise MoedaErrosDeValidacao(validator_schema.errors)

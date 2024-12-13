@@ -22,13 +22,17 @@ from src.domain.interfaces.moedas_repositorio_interface import (
     MoedasRepositorioInterface,
 )
 
-obj_mock = Moedas("Moeda 1", "Moeda Mockada 1", "BRL", 1.00)
+obj_mock_1 = Moedas("Primeira Moeda", "Primeira Moeda de Teste", "BRL", 1.00)
+obj_mock_2 = Moedas("Segunda Moeda", "Segunda Moeda de Teste", "USD", 4.56)
+obj_mock_3 = Moedas("Terceira Moeda", "Terceira Moeda de Teste", "EUR", 6.78)
 
 
 class MoedasRepositorio(MoedasRepositorioInterface):
     def __init__(self):
         self.repo = []
-        self.repo.append({obj_mock.id_moeda: obj_mock})
+        self.repo.append({obj_mock_1.id_moeda: obj_mock_1})
+        self.repo.append({obj_mock_2.id_moeda: obj_mock_2})
+        self.repo.append({obj_mock_3.id_moeda: obj_mock_3})
 
     def criar_moeda(self, moeda: Type[Moedas]) -> Type[Moedas] | None:
         self.repo.append({moeda.id_moeda: moeda})

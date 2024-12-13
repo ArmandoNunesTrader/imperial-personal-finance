@@ -17,12 +17,12 @@
 
 from src.use_cases.moedas.manter_moedas import CriarMoeda
 from src.use_cases.mocks.moedas_mock import MoedasRepositorio
-from src.adapters.http.mocks.http_request_moedas import HTTPRequestCriarMoeda
+from src.adapters.http.mocks.http_request_moedas import HTTPRequestMoeda
 from src.adapters.http.controllers.criar_moeda_controller import CriarMoedaController
 
 
 def test_criar_moeda_controller():
-    obj_http_request = HTTPRequestCriarMoeda(
+    obj_http_request = HTTPRequestMoeda(
         headers=None,
         body=None,
         query_params={

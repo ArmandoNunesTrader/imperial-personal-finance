@@ -40,9 +40,25 @@ class MoedaSiglaNaoInformada(Exception):
         self.status_code = 400
 
 
+class MoedaSiglaJaCadastrada(Exception):
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+        self.message = message
+        self.name = "Bad Request"
+        self.status_code = 400
+
+
 class MoedaErrosDeValidacao(Exception):
     def __init__(self, message: str) -> None:
         super().__init__(message)
         self.message = message
         self.name = "Unprocessable Entity"
         self.status_code = 422
+
+
+class MoedasException(Exception):  # pragma: no cover
+    def __init__(self, message: str, status_code: int) -> None:
+        super().__init__(message)
+        self.message = message
+        self.name = "Internal Server Error"
+        self.status_code = status_code
