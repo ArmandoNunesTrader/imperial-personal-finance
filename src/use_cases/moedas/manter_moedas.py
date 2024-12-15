@@ -16,6 +16,7 @@
 """
 
 from typing import Type
+from uuid import UUID
 
 from isNullOrEmpty.is_null_or_empty import is_null_or_empty
 
@@ -26,7 +27,9 @@ from src.domain.interfaces.moedas_repositorio_interface import (
     MoedasRepositorioInterface,
 )
 from src.use_cases.dto_s.dto_moedas import MoedaDTOIn
-from src.use_cases.validators.moedas_validators import moedas_dto_in_validator
+from src.use_cases.validators.moedas_validators import (
+    moedas_dto_in_validator,
+)
 from src.use_cases.moedas.obter_moeda_por_sigla import ObterMoedaPorSigla
 from src.errors.errors_handler import handler_errors
 from src.errors.moedas_errors import (
@@ -39,6 +42,7 @@ from src.errors.moedas_errors import (
 from src.utils.sanitize_utils import (
     sanitize_pt_br_phrase_capitalize,
     sanitize_pt_br_phrase_upper,
+    sanitize_uuid,
 )
 
 import src.utils.datetime_utils as dtu
@@ -59,7 +63,7 @@ class CriarMoeda:
 
     def execute(self, moeda_dto_in: Type[MoedaDTOIn]) -> Type[Moedas] | str:
         if is_null_or_empty(moeda_dto_in):
-            raise MoedaNaoInformada("Moeda não informada!")
+            raise MoedaNaoInformada()
 
         # Verifica a existência da sigla para evitar duplicidade
         if not is_null_or_empty(moeda_dto_in.to_dict()["sigla"]):
@@ -68,7 +72,7 @@ class CriarMoeda:
             )
             obj_moeda_sigla = ObterMoedaPorSigla(self.repo).execute(sigla_check_dup)
             if isinstance(obj_moeda_sigla, Moedas):
-                raise MoedaSiglaJaCadastrada("Sigla da Moeda já cadastrada!")
+                raise MoedaSiglaJaCadastrada()
 
         try:
             sanitized_sigla = sanitize_pt_br_phrase_capitalize(
@@ -109,7 +113,7 @@ class AtualizarMoeda:
 
     def execute(self, moeda: Type[Moedas]) -> bool:
         if is_null_or_empty(moeda):
-            raise MoedaNaoInformada("Moeda não informada!")
+            raise MoedaNaoInformada()
 
         # Verifica a existência da sigla para evitar duplicidade
         if not is_null_or_empty(moeda.sigla):
@@ -118,20 +122,23 @@ class AtualizarMoeda:
             if isinstance(obj_moeda_sigla_dup, Moedas) and (
                 obj_moeda_sigla_dup.id_moeda != moeda.id_moeda
             ):
-                raise MoedaSiglaJaCadastrada("Sigla da Moeda já cadastrada!")
+                raise MoedaSiglaJaCadastrada()
 
         try:
+            moeda.id_moeda = UUID(sanitize_uuid(str(moeda.id_moeda)))
             moeda.sigla = sanitize_pt_br_phrase_capitalize(moeda.sigla)
             moeda.descricao = sanitize_pt_br_phrase_capitalize(moeda.descricao)
             moeda.tipo_de_moeda = sanitize_pt_br_phrase_upper(moeda.tipo_de_moeda)
             moeda.updated_at = dtu.dt_now_utc()
 
-            moedas_dto_in_validator(moeda=moeda)
+            moedas_dto_in_validator(dto_in=None, moeda_in=moeda)
 
             return self.repo.atualizar_moeda(moeda)
+        except MoedaErrosDeValidacao as exception:
+            raise exception
         except Exception as exception:
             result = handler_errors(exception)
-            return json.dumps(result["body"]), result["status_code"]
+            raise MoedasException(json.dumps(result["body"]), result["status_code"])
 
 
 class ExcluirMoeda:
@@ -140,6 +147,10 @@ class ExcluirMoeda:
 
     def execute(self, moeda: Type[Moedas]) -> bool:
         if is_null_or_empty(moeda):
-            raise MoedaNaoInformada("Moeda não informada!")
+            raise MoedaNaoInformada()
 
-        return self.repo.excluir_moeda(moeda)
+        try:
+            return self.repo.excluir_moeda(moeda)
+        except Exception as exception:
+            result = handler_errors(exception)
+            raise MoedasException(json.dumps(result["body"]), result["status_code"])

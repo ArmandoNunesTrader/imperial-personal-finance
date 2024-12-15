@@ -56,6 +56,8 @@ str_aux_14 = "hellooooo"
 str_aux_14_o = "hello"
 str_aux_15 = "minicurso de python para mulheres"
 str_aux_15_o = "Minicurso de Python para Mulheres"
+str_aux_16 = "1e7297ee-a97d-4fc4-ad69-f3c3ed37dea3*& "
+str_aux_16_o = "1e7297ee-a97d-4fc4-ad69-f3c3ed37dea3"
 
 str_filename_1 = r"ar\quivo\\_de_testes.txt"
 str_filename_1_o = "ar_quivo___de_testes.txt"
@@ -109,6 +111,10 @@ def test_sanitize_remove_gigits():
 
 def test_sanitize_remove_non_alphabetic():
     assert fsn.sanitize_remove_non_alphabetic(str_aux_11) == str_aux_11_o
+
+
+def test_sanitize_uuid():
+    assert fsn.sanitize_uuid(str_aux_16) == str_aux_16_o
 
 
 def test_sanitize_remove_all_special_chars_and_ponctuation():

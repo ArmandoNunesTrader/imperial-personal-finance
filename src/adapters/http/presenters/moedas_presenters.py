@@ -21,10 +21,10 @@ from src.adapters.http.http_types.http_response import HttpResponse
 from typing import Dict
 
 
-def moedas_presenter_one(response: any) -> HttpResponse:
+def moedas_presenter_one(response: any, status_code_in: int = 200) -> HttpResponse:
     if isinstance(response, Moedas):
         return HttpResponse(
-            status_code=200,
+            status_code=status_code_in,
             body={
                 "type": "Moedas",
                 "count": 1,
@@ -58,6 +58,18 @@ def moedas_presenter_one(response: any) -> HttpResponse:
             "type": "Moedas",
             "count": 0,
             "message": "Ocorreu um erro desconhecido no servidor!",
+            "attributes": None,
+        },
+    )
+
+
+def moedas_presenter_ok(response: str, status_code_in: int = 200) -> HttpResponse:
+    return HttpResponse(
+        status_code=status_code_in,
+        body={
+            "type": "Moedas",
+            "count": 0,
+            "message": response,
             "attributes": None,
         },
     )

@@ -48,6 +48,10 @@ class CentrosDeCusto:
         repr=True, compare=True, init=False, default=dtu.dt_now_utc()
     )
 
+    # Manipulação de campos para compor o estado inicial da classe
+    def __post_init__(self):
+        pass
+
     def __str__(self):
         repr = "ID: {} - Sigla: {} - Descrição: {}"
 

@@ -27,7 +27,7 @@ from src.domain.interfaces.moedas_repositorio_interface import (
     MoedasRepositorioInterface,
 )
 from src.errors.errors_handler import handler_errors
-from src.errors.moedas_errors import MoedaIdNaoInformado
+from src.errors.moedas_errors import MoedaIdNaoInformado, MoedasException
 
 
 class ObterMoedaPorId:
@@ -36,13 +36,13 @@ class ObterMoedaPorId:
 
     def execute(self, id_moeda: Type[UUID]) -> Type[Moedas] | str:
         if is_null_or_empty(id_moeda):
-            raise MoedaIdNaoInformado("Identificador da Moeda não informado!")
+            raise MoedaIdNaoInformado()
 
         if isinstance(id_moeda, UUID) is True:
             try:
                 return self.repo.obter_moeda_por_id(id_moeda)
             except Exception as exception:
                 result = handler_errors(exception)
-                return json.dumps(result["body"]), result["status_code"]
+                raise MoedasException(json.dumps(result["body"]), result["status_code"])
 
-        raise MoedaIdNaoInformado("Identificador da Moeda informado não é válido!")
+        raise MoedaIdNaoInformado()

@@ -15,6 +15,7 @@
     ============================================================================
 """
 
+from src.errors.moedas_errors import MoedaDadosInvalidos
 from src.use_cases.dto_s.dto_moedas import MoedaDTOIn
 from src.use_cases.moedas.manter_moedas import CriarMoeda
 from src.adapters.http.http_types.http_request import HttpRequest
@@ -30,6 +31,15 @@ class CriarMoedaController(ControllerInterface):
         self.__use_case = use_case
 
     def handle(self, http_request: type[HttpRequest]) -> HttpResponse:
+        if (
+            (http_request.query_params is None)
+            or ("sigla" not in http_request.query_params)
+            or ("descricao" not in http_request.query_params)
+            or ("tipo_de_moeda" not in http_request.query_params)
+            or ("valor_da_paridade" not in http_request.query_params)
+        ):
+            raise MoedaDadosInvalidos()
+
         dict_http = {
             "sigla": http_request.query_params["sigla"],
             "descricao": http_request.query_params["descricao"],
@@ -40,4 +50,4 @@ class CriarMoedaController(ControllerInterface):
         dto_in = MoedaDTOIn().from_dict(dict_http)
         response = self.__use_case.execute(dto_in)
 
-        return moedas_presenter_one(response)
+        return moedas_presenter_one(response, 201)

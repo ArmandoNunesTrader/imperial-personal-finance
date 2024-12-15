@@ -18,12 +18,15 @@ import pytest
 
 from src.errors.moedas_errors import MoedaErrosDeValidacao
 from src.use_cases.dto_s.dto_moedas import MoedaDTOIn
-from src.use_cases.validators.moedas_validators import moedas_dto_in_validator
+from src.use_cases.validators.moedas_validators import (
+    moedas_dto_in_validator,
+)
 
 
 def test_moeda_validators_ok():
-    obj_1 = MoedaDTOIn.from_dict(
+    obj_1 = MoedaDTOIn().from_dict(
         {
+            "id_moeda": "d4004b05-268d-4e01-9b46-0bca3f1c06b2",
             "sigla": "Testes",
             "descricao": "Moeda de Testes",
             "tipo_de_moeda": "USD",
@@ -37,6 +40,7 @@ def test_moeda_validators_ok():
 def test_moeda_validators_errors():
     obj_1 = MoedaDTOIn().from_dict(
         {
+            "id_moeda": "6af83914-40a7-Xdc1-a0c9-27670b679836",
             "sigla": "M",
             "descricao": "M",
             "tipo_de_moeda": "XXX",

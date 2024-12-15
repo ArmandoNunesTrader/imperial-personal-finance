@@ -26,7 +26,7 @@ from src.domain.interfaces.moedas_repositorio_interface import (
     MoedasRepositorioInterface,
 )
 from src.errors.errors_handler import handler_errors
-from src.errors.moedas_errors import MoedaSiglaNaoInformada
+from src.errors.moedas_errors import MoedaSiglaNaoInformada, MoedasException
 
 
 class ObterMoedaPorSigla:
@@ -35,13 +35,13 @@ class ObterMoedaPorSigla:
 
     def execute(self, sigla: str) -> Type[Moedas] | str:
         if is_null_or_empty(sigla):
-            raise MoedaSiglaNaoInformada("Sigla da Moeda não informada!")
+            raise MoedaSiglaNaoInformada()
 
         if isinstance(sigla, str) is True:
             try:
                 return self.repo.obter_moeda_por_sigla(sigla)
             except Exception as exception:
                 result = handler_errors(exception)
-                return json.dumps(result["body"]), result["status_code"]
+                raise MoedasException(json.dumps(result["body"]), result["status_code"])
 
-        raise MoedaSiglaNaoInformada("Sigla da Moeda informado não é válida!")
+        raise MoedaSiglaNaoInformada()

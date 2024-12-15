@@ -36,7 +36,7 @@ def test_obter_moeda_por_id():
 
     with pytest.raises(MoedaIdNaoInformado) as msg_error:
         ObterMoedaPorId(obj_repo).execute(None)
-    assert msg_error.value.message == "Identificador da Moeda não informado!"
+    assert msg_error.value.message == "Identificador da Moeda informado não é válido!"
 
     with pytest.raises(MoedaIdNaoInformado) as msg_error:
         ObterMoedaPorId(obj_repo).execute("UUID_INVALIDA")

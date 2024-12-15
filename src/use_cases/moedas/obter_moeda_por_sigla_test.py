@@ -37,7 +37,7 @@ def test_obter_moeda_por_sigla():
 
     with pytest.raises(MoedaSiglaNaoInformada) as msg_error:
         ObterMoedaPorSigla(obj_repo).execute(None)
-    assert msg_error.value.message == "Sigla da Moeda não informada!"
+    assert msg_error.value.message == "Sigla da Moeda informada incorretamente!"
 
     obj_moeda = ObterMoedaPorSigla(obj_repo).execute("Não Localizado")
 
@@ -45,4 +45,4 @@ def test_obter_moeda_por_sigla():
 
     with pytest.raises(MoedaSiglaNaoInformada) as msg_error:
         ObterMoedaPorSigla(obj_repo).execute(125.54)
-    assert msg_error.value.message == "Sigla da Moeda informado não é válida!"
+    assert msg_error.value.message == "Sigla da Moeda informada incorretamente!"

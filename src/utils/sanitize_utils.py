@@ -75,6 +75,10 @@ def sanitize_remove_non_alphabetic(str_in: str) -> str:
     )  # Side effect: removes extra spaces
 
 
+def sanitize_uuid(str_in: str) -> str:
+    return "".join(w for w in str_in if (w.isalnum() or (w == "-")))
+
+
 def sanitize_remove_all_special_chars_and_ponctuation(str_in: str) -> str:
     return re.sub(r"[^A-Za-z0-9\s]+", "", str_in).strip()
 

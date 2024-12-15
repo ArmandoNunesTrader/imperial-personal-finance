@@ -26,6 +26,7 @@ from src.domain.enums.tipos_de_lancamentos import TiposDeLancamentos
 from src.domain.value_objects.moeda import VOMoeda
 
 import src.utils.datetime_utils as dtu
+import src.utils.math_utils as mtu
 
 
 @dataclass
@@ -44,32 +45,24 @@ class Lancamentos:
     data_do_vencimento: date = field(
         repr=True, compare=True, init=True, default=dtu.date_now_brasilia()
     )
-    tipo_de_moeda: str = field(repr=False, compare=False, init=True, default="BRL")
-    valor: float = field(repr=False, compare=False, init=True, default=1.0)
-    descricao_situacao_do_lancamento: str = field(
+    _tipo_de_moeda: str = field(
+        repr=False, compare=False, init=True, default="Real Brasileiro"
+    )
+    _valor_do_lancamento: float = field(
+        repr=False, compare=False, init=True, default=1.0
+    )
+    _situacao_do_lancamento: str = field(
         repr=False, compare=False, init=True, default="A Receber"
     )
-    descricao_tipo_de_lancamento: str = field(
+    _tipo_de_lancamento: str = field(
         repr=False, compare=False, init=True, default="Lançamento de Receita"
     )
 
     # Campos que não aparecerão no construtor da classe
     # --------------------------------------------------------------------------
-    valor_do_lancamento: VOMoeda = field(repr=True, compare=False, init=False)
-    situacao_do_lancamento: SituacoesDosLancamentos = field(
-        repr=True, compare=False, init=False
-    )
-    tipo_de_lancamento: TiposDeLancamentos = field(repr=True, compare=False, init=False)
     # Campos com valor default devem ser os últimos
     id_lancamento: UUID = field(
         repr=True, compare=True, init=False, default_factory=uuid4
-    )
-    vencido: bool = field(repr=True, compare=False, init=False, default=False)
-    ano_mes_orcamento: str = field(
-        repr=True,
-        compare=False,
-        init=False,
-        default=dtu.date_now_brasilia().strftime("%Y-%m"),
     )
     created_at: datetime = field(
         repr=True, compare=True, init=False, default=dtu.dt_now_utc()
@@ -78,48 +71,92 @@ class Lancamentos:
         repr=True, compare=True, init=False, default=dtu.dt_now_utc()
     )
 
-    # Manipulação de campos para compor o estado inicial da classe
-    def __post_init__(self):
-        # Trata o Value Object Valor do Lançamento
-        if is_null_or_empty(self.tipo_de_moeda):
-            aux_tipo_de_moeda = "BRL"
+    @property
+    def valor_do_lancamento(self) -> VOMoeda:
+        if (is_null_or_empty(self._tipo_de_moeda)) or (
+            self._tipo_de_moeda not in TiposDeMoedas.all_values()
+        ):
+            aux_tipo_de_moeda = Lancamentos._tipo_de_moeda
         else:
-            aux_tipo_de_moeda = self.tipo_de_moeda
+            aux_tipo_de_moeda = self._tipo_de_moeda
+        if mtu.is_float(self._valor_do_lancamento):
+            aux_valor_do_lancamento = float(self._valor_do_lancamento)
+        else:
+            aux_valor_do_lancamento = Lancamentos._valor_do_lancamento
+        return VOMoeda(aux_valor_do_lancamento, TiposDeMoedas(aux_tipo_de_moeda))
 
-        if is_null_or_empty(self.valor):
-            aux_valor = 1
+    @valor_do_lancamento.setter
+    def valor_do_lancamento(self, value: VOMoeda) -> None:
+        # Se o valor inicial não for especificado, usa o default
+        if type(value) is property:
+            self._valor_do_lancamento = (
+                Lancamentos._valor_do_lancamento
+            )  # pragma: no cover
         else:
-            aux_valor = self.valor
-        self.valor_do_lancamento = VOMoeda(aux_valor, TiposDeMoedas[aux_tipo_de_moeda])
+            self._tipo_de_moeda = value.tipo_de_moeda
+            self._valor_do_lancamento = float(value.valor)
 
-        # Trata o enum Situação do Lançamento
-        if is_null_or_empty(self.descricao_situacao_do_lancamento):
-            self.situacao_do_lancamento = SituacoesDosLancamentos.A_RECEBER
+    @property
+    def situacao_do_lancamento(self) -> SituacoesDosLancamentos:
+        if is_null_or_empty(self._situacao_do_lancamento) or (
+            self._situacao_do_lancamento not in SituacoesDosLancamentos.all_values()
+        ):
+            aux_situacao_do_lancamento = Lancamentos._situacao_do_lancamento
         else:
-            self.situacao_do_lancamento = SituacoesDosLancamentos(
-                self.descricao_situacao_do_lancamento
-            )
+            aux_situacao_do_lancamento = self._situacao_do_lancamento
 
-        # Trata o enum Tipo de Lançamento
-        if is_null_or_empty(self.descricao_tipo_de_lancamento):
-            self.tipo_de_lancamento = TiposDeLancamentos.RECEITA
+        return SituacoesDosLancamentos(aux_situacao_do_lancamento)
+
+    @situacao_do_lancamento.setter
+    def situacao_do_lancamento(self, value: SituacoesDosLancamentos) -> None:
+        # Se o valor inicial não for especificado, usa o default
+        if type(value) is property:
+            self._situacao_do_lancamento = (
+                Lancamentos._situacao_do_lancamento
+            )  # pragma: no cover
         else:
-            self.tipo_de_lancamento = TiposDeLancamentos(
-                self.descricao_tipo_de_lancamento
-            )
-        # Gera o indicador de lançamento vencido
+            self._situacao_do_lancamento = value.value
+
+    @property
+    def tipo_de_lancamento(self) -> TiposDeLancamentos:
+        if is_null_or_empty(self._tipo_de_lancamento) or (
+            self._tipo_de_lancamento not in TiposDeLancamentos.all_values()
+        ):
+            aux_tipo_de_lancamento = Lancamentos._tipo_de_lancamento
+        else:
+            aux_tipo_de_lancamento = self._tipo_de_lancamento
+
+        return TiposDeLancamentos(aux_tipo_de_lancamento)
+
+    @tipo_de_lancamento.setter
+    def tipo_de_lancamento(self, value: TiposDeLancamentos) -> None:
+        # Se o valor inicial não for especificado, usa o default
+        if type(value) is property:
+            self._tipo_de_lancamento = (
+                Lancamentos._tipo_de_lancamento
+            )  # pragma: no cover
+        else:
+            self._tipo_de_lancamento = value.value
+
+    @property
+    def vencido(self) -> bool:
         if (self.situacao_do_lancamento == SituacoesDosLancamentos.A_PAGAR) or (
             self.situacao_do_lancamento == SituacoesDosLancamentos.A_RECEBER
         ):
             if self.data_do_vencimento <= dtu.date_now_brasilia():
-                self.vencido = True
+                return True
             else:
-                self.vencido = False
+                return False
         else:
-            self.vencido = False
+            return False
 
-        # Gera o formato para análise de previsto / realizado no orçamento
-        self.ano_mes_orcamento = self.data_do_vencimento.strftime("%Y-%m")
+    @property
+    def ano_mes_orcamento(self) -> str:
+        return self.data_do_vencimento.strftime("%Y-%m")
+
+    # Manipulação de campos para compor o estado inicial da classe
+    def __post_init__(self):
+        pass
 
     def __str__(self):
         repr = "ID: {} - Data do Vencimento: {} - Descrição: {} - Valor: {}"

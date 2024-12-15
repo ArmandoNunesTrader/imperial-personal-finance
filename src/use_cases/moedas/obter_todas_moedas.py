@@ -24,6 +24,7 @@ from src.domain.interfaces.moedas_repositorio_interface import (
     MoedasRepositorioInterface,
 )
 from src.errors.errors_handler import handler_errors
+from src.errors.moedas_errors import MoedasException
 
 
 class ObterTodasAsMoedas:
@@ -35,4 +36,4 @@ class ObterTodasAsMoedas:
             return self.repo.obter_todas_moedas()
         except Exception as exception:
             result = handler_errors(exception)
-            return json.dumps(result["body"]), result["status_code"]
+            raise MoedasException(json.dumps(result["body"]), result["status_code"])

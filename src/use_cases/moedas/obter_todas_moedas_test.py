@@ -20,7 +20,6 @@ from src.use_cases.moedas.obter_todas_moedas import ObterTodasAsMoedas
 
 obj_repo = MoedasRepositorio()
 for ind, reg in obj_repo.repo[0].items():
-    sigla = reg.sigla
     obj_moeda_1 = reg
     break
 

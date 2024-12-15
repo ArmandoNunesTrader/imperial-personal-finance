@@ -16,13 +16,13 @@
 """
 from typing import Dict
 
-from src.errors.moedas_errors import MoedaErrosDeValidacao, MoedaNaoInformada
+from src.errors.moedas_errors import MoedaErrosDeValidacao, MoedaBadRequest
 
 
 # O comentário é para que esta função não seja levada em conta no cálculo de
 #   cobertura de testes do pytest
 def handler_errors(error: Exception) -> Dict:  # pragma: no cover
-    if isinstance(error, (MoedaNaoInformada, MoedaErrosDeValidacao)):
+    if isinstance(error, (MoedaBadRequest, MoedaErrosDeValidacao)):
         return {
             "status_code": error.status_code,
             "body": {"errors": [{"title": error.name, "detail": error.message}]},

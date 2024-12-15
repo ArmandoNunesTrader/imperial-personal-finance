@@ -16,15 +16,7 @@
 """
 
 
-class MoedaNaoInformada(Exception):
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
-        self.message = message
-        self.name = "Bad Request"
-        self.code = 400
-
-
-class MoedaIdNaoInformado(Exception):
+class MoedaBadRequest(Exception):
     def __init__(self, message: str) -> None:
         super().__init__(message)
         self.message = message
@@ -32,20 +24,29 @@ class MoedaIdNaoInformado(Exception):
         self.status_code = 400
 
 
-class MoedaSiglaNaoInformada(Exception):
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
-        self.message = message
-        self.name = "Bad Request"
-        self.status_code = 400
+class MoedaNaoInformada(MoedaBadRequest):
+    def __init__(self) -> None:
+        super().__init__("Moeda não informada!")
 
 
-class MoedaSiglaJaCadastrada(Exception):
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
-        self.message = message
-        self.name = "Bad Request"
-        self.status_code = 400
+class MoedaIdNaoInformado(MoedaBadRequest):
+    def __init__(self) -> None:
+        super().__init__("Identificador da Moeda informado não é válido!")
+
+
+class MoedaSiglaNaoInformada(MoedaBadRequest):
+    def __init__(self) -> None:
+        super().__init__("Sigla da Moeda informada incorretamente!")
+
+
+class MoedaSiglaJaCadastrada(MoedaBadRequest):
+    def __init__(self) -> None:
+        super().__init__("Sigla da Moeda já cadastrada!")
+
+
+class MoedaDadosInvalidos(MoedaBadRequest):
+    def __init__(self) -> None:
+        super().__init__("Informe todos os dados corretamente!")
 
 
 class MoedaErrosDeValidacao(Exception):

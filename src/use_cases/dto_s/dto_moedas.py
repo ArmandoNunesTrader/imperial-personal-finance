@@ -19,6 +19,8 @@ from typing import Dict
 
 class MoedaDTOIn:
     def __init__(self, **kwargs):
+        if kwargs.get("id_moeda") is not None:
+            self.id_moeda = kwargs.get("id_moeda")
         self.sigla = kwargs.get("sigla")
         self.descricao = kwargs.get("descricao")
         self.tipo_de_moeda = kwargs.get("tipo_de_moeda")
