@@ -19,13 +19,24 @@ from src.use_cases.mocks.moedas_mock import MoedasRepositorio
 from src.use_cases.moedas.obter_todas_moedas import ObterTodasAsMoedas
 
 obj_repo = MoedasRepositorio()
-for ind, reg in obj_repo.repo[0].items():
+for reg in obj_repo.repo:
     obj_moeda_1 = reg
     break
 
+obj_repo_clean = MoedasRepositorio()
+obj_repo_clean.repo = []
 
-def test_obter_todas_as_moedas():
+
+def test_obter_todas_as_moedas_ok():
     list_moedas = ObterTodasAsMoedas(obj_repo).execute()
 
     assert list_moedas is not None
     assert list_moedas[0] == obj_moeda_1
+
+    # Retirar os comentários para visualizar o objeto retornado
+    # print()
+    # print(str(obj_moeda_1))
+
+
+def test_obter_todas_as_moedas_erro():
+    assert ObterTodasAsMoedas(obj_repo_clean).execute() is False

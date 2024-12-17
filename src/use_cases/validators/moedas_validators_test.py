@@ -17,24 +17,46 @@
 import pytest
 
 from src.errors.moedas_errors import MoedaErrosDeValidacao
-from src.use_cases.dto_s.dto_moedas import MoedaDTOIn
+from src.use_cases.dtos.dto_moedas import MoedaDTOIn
 from src.use_cases.validators.moedas_validators import (
-    moedas_dto_in_validator,
+    moedas_dto_in_validator_full,
+    moedas_dto_in_validator_id,
+    moedas_dto_in_validator_sigla,
 )
 
 
-def test_moeda_validators_ok():
+def test_moeda_validators_full_ok():
     obj_1 = MoedaDTOIn().from_dict(
         {
             "id_moeda": "d4004b05-268d-4e01-9b46-0bca3f1c06b2",
             "sigla": "Testes",
             "descricao": "Moeda de Testes",
-            "tipo_de_moeda": "USD",
-            "valor_da_paridade": 5.46,
+            "_tipo_de_moeda": "Dólar Americano",
+            "_valor_da_paridade": 5.46,
         }
     )
 
-    assert moedas_dto_in_validator(obj_1) is None
+    assert moedas_dto_in_validator_full(obj_1) is True
+
+
+def test_moeda_validators_id_ok():
+    obj_1 = MoedaDTOIn().from_dict(
+        {
+            "id_moeda": "d4004b05-268d-4e01-9b46-0bca3f1c06b2",
+        }
+    )
+
+    assert moedas_dto_in_validator_id(obj_1) is True
+
+
+def test_moeda_validators_sigla_ok():
+    obj_1 = MoedaDTOIn().from_dict(
+        {
+            "sigla": "Testes",
+        }
+    )
+
+    assert moedas_dto_in_validator_sigla(obj_1) is True
 
 
 def test_moeda_validators_errors():
@@ -43,24 +65,24 @@ def test_moeda_validators_errors():
             "id_moeda": "6af83914-40a7-Xdc1-a0c9-27670b679836",
             "sigla": "M",
             "descricao": "M",
-            "tipo_de_moeda": "XXX",
-            "valor_da_paridade": -1,
+            "_tipo_de_moeda": "XXX",
+            "_valor_da_paridade": -1,
         }
     )
 
     with pytest.raises(MoedaErrosDeValidacao) as msg_error:
-        moedas_dto_in_validator(obj_1)
+        moedas_dto_in_validator_full(obj_1)
     assert msg_error.value.message != ""
 
     obj_2 = MoedaDTOIn().from_dict(
         {
             "sigla": "M123456 789 123456789 123456789 123456789 123456789 ",
             "descricao": "M123456789 123456789 123456789 123456789 123456789 123456789 ",  # noqa E501
-            "tipo_de_moeda": "XXX",
-            "valor_da_paridade": 100000,
+            "_tipo_de_moeda": "XXX",
+            "_valor_da_paridade": 100000,
         }
     )
 
     with pytest.raises(MoedaErrosDeValidacao) as msg_error:
-        moedas_dto_in_validator(obj_2)
+        moedas_dto_in_validator_full(obj_2)
     assert msg_error.value.message != ""

@@ -32,42 +32,47 @@ obj_mock_3 = Moedas("Terceira Moeda", "Terceira Moeda de Teste", "Euro", 6.78)
 class MoedasRepositorio(MoedasRepositorioInterface):
     def __init__(self):
         self.repo = []
-        self.repo.append(obj_mock_1)
-        self.repo.append(obj_mock_2)
-        self.repo.append(obj_mock_3)
+        self.repo.append({obj_mock_1.id_moeda: obj_mock_1})
+        self.repo.append({obj_mock_2.id_moeda: obj_mock_2})
+        self.repo.append({obj_mock_3.id_moeda: obj_mock_3})
 
     def criar_moeda(self, moeda: Type[Moedas]) -> Type[Moedas] | None:
-        self.repo.append(moeda)
+        self.repo.append({moeda.id_moeda: moeda})
         return moeda
 
     def atualizar_moeda(self, moeda: Type[Moedas]) -> bool:
         for ind in range(len(self.repo)):
-            if str(self.repo[ind].id_moeda) == str(moeda.id_moeda):
-                self.repo[ind] = moeda
+            for key in self.repo[ind]:
+                if self.repo[ind][key].id_moeda == moeda.id_moeda:
+                    self.repo[ind][key] = moeda
         return True
 
     def excluir_moeda(self, moeda: Type[Moedas]) -> bool:
         for ind in range(len(self.repo)):
-            if self.repo[ind].id_moeda == moeda.id_moeda:
-                del self.repo[ind]
-                break
+            for key in self.repo[ind]:
+                if self.repo[ind][key].id_moeda == moeda.id_moeda:
+                    del self.repo[ind][key]
+                    break
         return True
 
     def obter_moeda_por_id(self, id_moeda: Type[UUID]) -> Type[Moedas]:
         for ind in range(len(self.repo)):
-            if str(self.repo[ind].id_moeda) == str(id_moeda):
-                return self.repo[ind]
+            for key in self.repo[ind]:
+                if str(self.repo[ind][key].id_moeda) == str(id_moeda):
+                    return self.repo[ind][key]
         return None
 
     def obter_moeda_por_sigla(self, sigla: str) -> Type[Moedas]:
         for ind in range(len(self.repo)):
-            if self.repo[ind].sigla == sigla:
-                return self.repo[ind]
+            for key in self.repo[ind]:
+                if self.repo[ind][key].sigla == sigla:
+                    return self.repo[ind][key]
         return None
 
     def obter_todas_moedas(self) -> List[Moedas]:
         result = []
         for ind in range(len(self.repo)):
-            result.append(self.repo[ind])
+            for key in self.repo[ind]:
+                result.append(self.repo[ind][key])
 
         return result

@@ -21,24 +21,21 @@ from cerberus import Validator
 
 import re
 
-from src.domain.entities.moedas import Moedas
 from src.domain.enums.tipos_de_moedas import TiposDeMoedas
-from src.use_cases.dto_s.dto_moedas import MoedaDTOIn
+from src.use_cases.dtos.dto_moedas import MoedaDTOIn
 from src.errors.moedas_errors import MoedaErrosDeValidacao
 
 
 def validate_uuid(field, value, error):
     re_uuid = re.compile(r"[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}", re.I)
-    if not re_uuid.match(value):
+    if (value is None) or (not isinstance(value, str)) or (not re_uuid.match(value)):
         error(field, "must be valid UUID")
 
 
-def moedas_dto_in_validator(
-    dto_in: Type[MoedaDTOIn] = None, moeda_in: Type[Moedas] = None
-):
-
-    tipos_de_moedas_list = TiposDeMoedas.all_names()
+def moedas_dto_in_validator_full(dto_in: Type[MoedaDTOIn] = None) -> bool:
+    tipos_de_moedas_list = TiposDeMoedas.all_values()
     dict_schema = {
+        "id_moeda": {"check_with": validate_uuid},
         "sigla": {
             "type": "string",
             "required": True,
@@ -53,15 +50,15 @@ def moedas_dto_in_validator(
             "minlength": 3,
             "maxlength": 30,
         },
-        "tipo_de_moeda": {
+        "_tipo_de_moeda": {
             "type": "string",
             "required": True,
             "empty": False,
             "minlength": 3,
-            "maxlength": 3,
+            "maxlength": 30,
             "allowed": tipos_de_moedas_list,
         },
-        "valor_da_paridade": {
+        "_valor_da_paridade": {
             "type": "float",
             "required": True,
             "empty": False,
@@ -70,24 +67,46 @@ def moedas_dto_in_validator(
         },
     }
 
-    if ((dto_in is not None) and ("id_moeda" in dto_in.to_dict())) or (
-        (moeda_in is not None)
-    ):
-        dict_schema.update({"id_moeda": {"check_with": validate_uuid}})
     validator_schema = Validator(dict_schema)
 
-    if dto_in is not None:
-        response = validator_schema.validate(dto_in.to_dict())
-    elif moeda_in is not None:
-        response = validator_schema.validate(
-            {
-                "id_moeda": str(moeda_in.id_moeda),
-                "sigla": moeda_in.sigla,
-                "descricao": moeda_in.descricao,
-                "tipo_de_moeda": moeda_in.tipo_de_moeda,
-                "valor_da_paridade": moeda_in.valor_da_paridade,
-            }
-        )
+    response = validator_schema.validate(dto_in.to_dict())
 
     if response is False:
         raise MoedaErrosDeValidacao(validator_schema.errors)
+
+    return True
+
+
+def moedas_dto_in_validator_id(dto_in: Type[MoedaDTOIn] = None) -> bool:
+    dict_schema = {
+        "id_moeda": {"check_with": validate_uuid},
+    }
+
+    validator_schema = Validator(dict_schema)
+
+    response = validator_schema.validate({"id_moeda": dto_in.to_dict()["id_moeda"]})
+
+    if response is False:
+        raise MoedaErrosDeValidacao(validator_schema.errors)
+
+    return True
+
+
+def moedas_dto_in_validator_sigla(dto_in: Type[MoedaDTOIn] = None) -> bool:
+    dict_schema = {
+        "sigla": {
+            "type": "string",
+            "required": True,
+            "empty": False,
+            "minlength": 3,
+            "maxlength": 15,
+        },
+    }
+
+    validator_schema = Validator(dict_schema)
+
+    response = validator_schema.validate({"sigla": dto_in.to_dict()["sigla"]})
+    if response is False:
+        raise MoedaErrosDeValidacao(validator_schema.errors)
+
+    return True

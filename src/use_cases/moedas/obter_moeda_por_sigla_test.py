@@ -17,32 +17,43 @@
 
 import pytest
 
-from src.errors.moedas_errors import MoedaSiglaNaoInformada
+from src.errors.moedas_errors import (
+    MoedaErrosDeValidacao,
+    MoedaSiglaNaoInformada,
+)
 
+from src.use_cases.dtos.dto_moedas import MoedaDTOIn
 from src.use_cases.mocks.moedas_mock import MoedasRepositorio
 from src.use_cases.moedas.obter_moeda_por_sigla import ObterMoedaPorSigla
 
 obj_repo = MoedasRepositorio()
-for ind, reg in obj_repo.repo[0].items():
+for reg in obj_repo.repo:
     sigla = reg.sigla
-    obj_moeda_1 = reg
     break
 
+obj_dto_ok = MoedaDTOIn().from_dict({"sigla": sigla})
+obj_dto_erro_1 = MoedaDTOIn().from_dict({"sigla": "Não Localizada"})
+obj_dto_erro_2 = MoedaDTOIn().from_dict({"sigla": "A"})
+obj_dto_erro_3 = MoedaDTOIn().from_dict({"sigla": 123.45})
 
-def test_obter_moeda_por_sigla():
-    obj_moeda = ObterMoedaPorSigla(obj_repo).execute(sigla)
+
+def test_obter_moeda_por_sigla_ok():
+    obj_moeda = ObterMoedaPorSigla(obj_repo).execute(obj_dto_ok)
 
     assert obj_moeda is not None
-    assert obj_moeda == obj_moeda_1
 
+
+def test_obter_moeda_por_sigla_erro_validacao():
+    with pytest.raises(MoedaErrosDeValidacao) as msg_error:
+        ObterMoedaPorSigla(obj_repo).execute(obj_dto_erro_2)
+    assert msg_error.value.message != ""
+
+
+def test_obter_moeda_por_sigla_erro_nao_informada():
     with pytest.raises(MoedaSiglaNaoInformada) as msg_error:
-        ObterMoedaPorSigla(obj_repo).execute(None)
-    assert msg_error.value.message == "Sigla da Moeda informada incorretamente!"
+        ObterMoedaPorSigla(obj_repo).execute(obj_dto_erro_3)
+    assert msg_error.value.message == "Sigla da Moeda não informada!"
 
-    obj_moeda = ObterMoedaPorSigla(obj_repo).execute("Não Localizado")
 
-    assert obj_moeda is None
-
-    with pytest.raises(MoedaSiglaNaoInformada) as msg_error:
-        ObterMoedaPorSigla(obj_repo).execute(125.54)
-    assert msg_error.value.message == "Sigla da Moeda informada incorretamente!"
+def test_obter_moeda_por_sigla_erro_nao_localizada():
+    assert ObterMoedaPorSigla(obj_repo).execute(obj_dto_erro_1) is False

@@ -19,12 +19,12 @@ from typing import Dict
 
 class MoedaDTOIn:
     def __init__(self, **kwargs):
-        if kwargs.get("id_moeda") is not None:
-            self.id_moeda = kwargs.get("id_moeda")
-        self.sigla = kwargs.get("sigla")
-        self.descricao = kwargs.get("descricao")
-        self.tipo_de_moeda = kwargs.get("tipo_de_moeda")
-        self.valor_da_paridade = kwargs.get("valor_da_paridade")
+        if "id_moeda" in kwargs:
+            self.id_moeda = kwargs.get("id_moeda", None)
+        self.sigla = kwargs.get("sigla", None)
+        self.descricao = kwargs.get("descricao", None)
+        self._tipo_de_moeda = kwargs.get("_tipo_de_moeda", None)
+        self._valor_da_paridade = kwargs.get("_valor_da_paridade", None)
 
     def to_dict(self) -> Dict:
         return self.__dict__

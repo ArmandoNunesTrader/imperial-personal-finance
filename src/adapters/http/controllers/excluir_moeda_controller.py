@@ -16,7 +16,7 @@
 """
 
 from src.use_cases.moedas.manter_moedas import ExcluirMoeda
-from src.use_cases.dto_s.dto_moedas import MoedaDTOIn
+from src.use_cases.dtos.dto_moedas import MoedaDTOIn
 from src.adapters.http.http_types.http_request import HttpRequest
 from src.adapters.http.interfaces.controller_interface import ControllerInterface
 from src.adapters.http.http_types.http_response import HttpResponse

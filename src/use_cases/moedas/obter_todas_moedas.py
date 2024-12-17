@@ -17,13 +17,11 @@
 
 from typing import List
 
-import json
 
 from src.domain.entities.moedas import Moedas
 from src.domain.interfaces.moedas_repositorio_interface import (
     MoedasRepositorioInterface,
 )
-from src.errors.errors_handler import handler_errors
 from src.errors.moedas_errors import MoedasException
 
 
@@ -31,9 +29,12 @@ class ObterTodasAsMoedas:
     def __init__(self, repo: type[MoedasRepositorioInterface]):
         self.repo = repo
 
-    def execute(self) -> List[Moedas] | str:
+    def execute(self) -> List[Moedas] | bool:
         try:
-            return self.repo.obter_todas_moedas()
+            result = self.repo.obter_todas_moedas()
+            if result == []:
+                return False
+            else:
+                return result
         except Exception as exception:
-            result = handler_errors(exception)
-            raise MoedasException(json.dumps(result["body"]), result["status_code"])
+            raise MoedasException(str(exception), 500)
