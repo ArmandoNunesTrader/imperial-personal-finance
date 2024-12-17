@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
 """
-@File    :   obter_moeda_por_id_controller_test.py
+@File    :   obter_moeda_por_sigla_controller_test.py
 @Created :   16/12/2024 22:34:56
 @Author  :   Armando Nunes
 @Version :   1.0
@@ -11,26 +11,26 @@
 
 """
     ============================================================================
-        Testes do controller de Obter Moeda Por Id
+        Testes do controller de Obter Moeda Por Sigla
     ============================================================================
 """
 
 from src.use_cases.mocks.moedas_mock import MoedasRepositorio
-from src.use_cases.moedas.obter_moeda_por_id import ObterMoedaPorId
+from src.use_cases.moedas.obter_moeda_por_sigla import ObterMoedaPorSigla
 from src.adapters.http.http_types.http_request import HttpRequest
 from src.adapters.http.controllers.obter_moeda_por_id_controller import (
     ObterMoedaPorIdController,
 )
 
 
-def test_obter_moeda_por_id_controller_ok():
+def test_obter_moeda_por_sigla_controller_ok():
     obj_repo = MoedasRepositorio()
-    id_moeda = str(obj_repo.repo[0].id_moeda)
+    sigla = str(obj_repo.repo[0].sigla)
 
     obj_request = HttpRequest()
-    obj_request.query_params = [{"id_moeda": id_moeda}]
+    obj_request.query_params = [{"sigla": sigla}]
 
-    obj_use_case = ObterMoedaPorId(obj_repo)
+    obj_use_case = ObterMoedaPorSigla(obj_repo)
 
     obj_controller = ObterMoedaPorIdController(obj_use_case)
 
@@ -44,13 +44,13 @@ def test_obter_moeda_por_id_controller_ok():
     # print(str(obj_response.body))
 
 
-def test_obter_moeda_por_id_controller_nao_localizado():
+def test_obter_moeda_por_sigla_controller_nao_localizado():
     obj_repo = MoedasRepositorio()
 
     obj_request = HttpRequest()
-    obj_request.query_params = [{"id_moeda": "baf6c2c9-3e1b-4bf6-9916-a2dfb82f8d83"}]
+    obj_request.query_params = [{"sigla": "Alfa Beta"}]
 
-    obj_use_case = ObterMoedaPorId(obj_repo)
+    obj_use_case = ObterMoedaPorSigla(obj_repo)
 
     obj_controller = ObterMoedaPorIdController(obj_use_case)
 
@@ -64,13 +64,13 @@ def test_obter_moeda_por_id_controller_nao_localizado():
     # print(str(obj_response.body))
 
 
-def test_obter_moeda_por_id_controller_erro():
+def test_obter_moeda_por_sigla_controller_erro():
     obj_repo = MoedasRepositorio()
 
     obj_request = HttpRequest()
-    obj_request.query_params = [{"id_moeda": "baf6c2c9-3e1b-Xbf6-9916-a2dfb82f8d83"}]
+    obj_request.query_params = [{"sigla": "Teste Com Longos Tamanhos e Etc"}]
 
-    obj_use_case = ObterMoedaPorId(obj_repo)
+    obj_use_case = ObterMoedaPorSigla(obj_repo)
 
     obj_controller = ObterMoedaPorIdController(obj_use_case)
 
