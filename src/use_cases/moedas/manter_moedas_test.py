@@ -172,7 +172,9 @@ def test_moedas_use_cases_excluir():
     result = ExcluirMoeda(obj_repo).execute(dict_excluir)
     assert result is True
 
-    assert ObterMoedaPorId(obj_repo).execute(dict_excluir) is False
+    with pytest.raises(MoedaIdNaoLocalizado) as msg_error:
+        ObterMoedaPorId(obj_repo).execute(dict_excluir)
+    assert msg_error.value.message == "Identificador da Moeda não localizado!"
 
 
 def test_moedas_use_cases_excessoes():

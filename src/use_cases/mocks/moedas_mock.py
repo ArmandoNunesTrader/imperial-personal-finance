@@ -17,10 +17,10 @@
 from uuid import UUID
 from typing import Type, List
 
-from src.domain.entities.moedas import Moedas
 from src.domain.interfaces.moedas_repositorio_interface import (
     MoedasRepositorioInterface,
 )
+from src.domain.entities.moedas import Moedas
 
 obj_mock_1 = Moedas(
     "Primeira Moeda", "Primeira Moeda de Teste", "Real Brasileiro", 1.00

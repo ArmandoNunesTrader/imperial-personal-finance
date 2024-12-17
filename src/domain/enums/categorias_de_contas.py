@@ -23,6 +23,7 @@ class CategoriasDeContas(StrEnum):
     RECEITA = "Receita"
     DESPESA = "Despesa"
     INVESTIMENTO = "Investimento"
+    FINANCIAMENTO = "Financiamento"
 
     @classmethod
     def value_to_name(cls, val):

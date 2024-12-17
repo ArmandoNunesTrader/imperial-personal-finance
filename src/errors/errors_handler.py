@@ -21,6 +21,6 @@ from typing import Dict
 #   cobertura de testes do pytest
 def handler_errors(error: Exception) -> Dict:  # pragma: no cover
     return {
-        "status_code": 500,
-        "body": [{"errors": [{"title": "Server Error", "detail": str(error)}]}],
+        "status_code": error.status_code,
+        "body": [{"errors": [{"title": error.name, "detail": str(error.message)}]}],
     }

@@ -22,34 +22,41 @@ def test_create():
     obj_1 = TiposDeContas(TiposDeContas.ATIVO)
     obj_2 = TiposDeContas(TiposDeContas.BANCO)
     obj_3 = TiposDeContas(TiposDeContas.INVESTIMENTO)
-    obj_4 = TiposDeContas(TiposDeContas.CAIXA)
+    obj_4 = TiposDeContas(TiposDeContas.FINANCIAMENTO)
+    obj_5 = TiposDeContas(TiposDeContas.CAIXA)
 
     assert obj_1.value == "Conta de Ativo"
     assert obj_2.value == "Conta Corrente Bancária"
     assert obj_3.value == "Conta de Investimento"
-    assert obj_4.value == "Conta Caixa"
+    assert obj_4.value == "Conta de Financiamento"
+    assert obj_5.value == "Conta Caixa"
     assert obj_1.value_to_name("Conta de Ativo") == "ATIVO"
     assert obj_2.value_to_name("Conta Corrente Bancária") == "BANCO"
     assert obj_3.value_to_name("Conta de Investimento") == "INVESTIMENTO"
-    assert obj_4.value_to_name("Conta Caixa") == "CAIXA"
+    assert obj_4.value_to_name("Conta de Financiamento") == "FINANCIAMENTO"
+    assert obj_5.value_to_name("Conta Caixa") == "CAIXA"
     assert TiposDeContas["ATIVO"] is TiposDeContas.ATIVO
     assert TiposDeContas["BANCO"] is TiposDeContas.BANCO
     assert TiposDeContas["INVESTIMENTO"] is TiposDeContas.INVESTIMENTO
+    assert TiposDeContas["FINANCIAMENTO"] is TiposDeContas.FINANCIAMENTO
     assert TiposDeContas["CAIXA"] is TiposDeContas.CAIXA
     assert TiposDeContas("Conta de Ativo") is TiposDeContas.ATIVO
     assert TiposDeContas("Conta Corrente Bancária") is TiposDeContas.BANCO
     assert TiposDeContas("Conta de Investimento") is TiposDeContas.INVESTIMENTO
+    assert TiposDeContas("Conta de Financiamento") is TiposDeContas.FINANCIAMENTO
     assert TiposDeContas("Conta Caixa") is TiposDeContas.CAIXA
 
     assert TiposDeContas.all_names() == [
         "ATIVO",
         "BANCO",
         "INVESTIMENTO",
+        "FINANCIAMENTO",
         "CAIXA",
     ]
     assert TiposDeContas.all_values() == [
         "Conta de Ativo",
         "Conta Corrente Bancária",
         "Conta de Investimento",
+        "Conta de Financiamento",
         "Conta Caixa",
     ]

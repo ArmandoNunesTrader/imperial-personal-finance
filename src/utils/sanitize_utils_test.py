@@ -136,6 +136,7 @@ def test_sanitize_capitalize_without_pt_br_prepositions():
     assert (
         fsn.sanitize_capitalize_without_pt_br_prepositions(str_aux_15) == str_aux_15_o
     )
+    assert fsn.sanitize_capitalize_without_pt_br_prepositions("") == ""
 
 
 def test_sanitize_pt_br_phrase_capitalize():

@@ -15,29 +15,24 @@
     ============================================================================
 """
 
+from typing import Dict
+
 from src.domain.entities.moedas import Moedas
 from src.adapters.http.http_types.http_response import HttpResponse
 
-from typing import Dict
+from src.use_cases.moedas.serializers_moeda import entity_to_dto_out
 
 
 def moedas_presenter_one(response: any, status_code_in: int = 200) -> HttpResponse:
     if isinstance(response, Moedas):
+        obj_serialized = entity_to_dto_out(response)
         return HttpResponse(
             status_code=status_code_in,
             body={
                 "type": "Moedas",
                 "count": 1,
                 "message": None,
-                "attributes": {
-                    "sigla": response.sigla,
-                    "descricao": response.descricao,
-                    "paridade": {
-                        "sigla": response.paridade_com_real_brasileiro.tipo_de_moeda.name,  # noqa E501
-                        "valor": response.paridade_com_real_brasileiro.valor,
-                        "formatada": response.paridade_com_real_brasileiro.formatada,  # noqa E501
-                    },
-                },
+                "attributes": obj_serialized,
             },
         )
 
@@ -63,13 +58,13 @@ def moedas_presenter_one(response: any, status_code_in: int = 200) -> HttpRespon
     )
 
 
-def moedas_presenter_ok(response: str, status_code_in: int = 200) -> HttpResponse:
-    return HttpResponse(
-        status_code=status_code_in,
-        body={
-            "type": "Moedas",
-            "count": 0,
-            "message": response,
-            "attributes": None,
-        },
-    )
+# def moedas_presenter_ok(response: str, status_code_in: int = 200) -> HttpResponse:
+#     return HttpResponse(
+#         status_code=status_code_in,
+#         body={
+#             "type": "Moedas",
+#             "count": 0,
+#             "message": response,
+#             "attributes": None,
+#         },
+#     )

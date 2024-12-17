@@ -37,6 +37,7 @@ from src.errors.moedas_errors import (
     MoedaNaoInformada,
     MoedaIdNaoLocalizado,
     MoedaSiglaJaCadastrada,
+    MoedaSiglaNaoLocalizada,
 )
 
 
@@ -56,8 +57,11 @@ class CriarMoeda:
         moedas_dto_in_validator_full(dto_in)
         try:
             # Previne a duplicidade de siglas
-            if isinstance(ObterMoedaPorSigla(self.repo).execute(dto_in), Moedas):
-                raise MoedaSiglaJaCadastrada()
+            try:
+                if isinstance(ObterMoedaPorSigla(self.repo).execute(dto_in), Moedas):
+                    raise MoedaSiglaJaCadastrada()
+            except MoedaSiglaNaoLocalizada as exception:  # noqa F841
+                pass
 
             obj_moeda = dto_in_to_entity(dto_in, False)
 
@@ -82,14 +86,20 @@ class AtualizarMoeda:
         moedas_dto_in_validator_full(dto_in)
         try:
             # Busca o objeto a alterar
-            obj_base = ObterMoedaPorId(self.repo).execute(dto_in)
-            if obj_base is False:
-                raise MoedaIdNaoLocalizado()
+            try:
+                ObterMoedaPorId(self.repo).execute(dto_in)
+            except MoedaIdNaoLocalizado as exception:  # noqa F841
+                raise MoedaIdNaoLocalizado
 
             # Previne a duplicidade de siglas
-            obj_check = ObterMoedaPorSigla(self.repo).execute(dto_in)
-            exists = str(obj_check.id_moeda) != dto_in.to_dict()["id_moeda"]
-            if isinstance(obj_check, Moedas) and exists:
+            try:
+                obj_check = ObterMoedaPorSigla(self.repo).execute(dto_in)
+                exists = str(obj_check.id_moeda) != dto_in.to_dict()["id_moeda"]
+                if isinstance(obj_check, Moedas) and exists:
+                    raise MoedaSiglaJaCadastrada
+            except MoedaSiglaNaoLocalizada as exception:  # noqa F841
+                pass
+            except MoedaSiglaJaCadastrada as exception:  # noqa F841
                 raise MoedaSiglaJaCadastrada
 
             obj_moeda = dto_in_to_entity(dto_in, True)
@@ -118,8 +128,6 @@ class ExcluirMoeda:
         try:
             # Busca o objeto a alterar
             obj_moeda = ObterMoedaPorId(self.repo).execute(dto_in)
-            if obj_moeda is False:
-                raise MoedaIdNaoLocalizado()
 
             return self.repo.excluir_moeda(obj_moeda)
         except MoedaIdNaoLocalizado as exception:

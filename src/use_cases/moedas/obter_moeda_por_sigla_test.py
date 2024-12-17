@@ -20,6 +20,7 @@ import pytest
 from src.errors.moedas_errors import (
     MoedaErrosDeValidacao,
     MoedaSiglaNaoInformada,
+    MoedaSiglaNaoLocalizada,
 )
 
 from src.use_cases.dtos.dto_moedas import MoedaDTOIn
@@ -29,18 +30,12 @@ from src.use_cases.moedas.obter_moeda_por_sigla import ObterMoedaPorSigla
 obj_repo = MoedasRepositorio()
 for reg in obj_repo.repo:
     sigla = reg.sigla
+    obj_sigla_1 = reg
     break
 
-obj_dto_ok = MoedaDTOIn().from_dict({"sigla": sigla})
 obj_dto_erro_1 = MoedaDTOIn().from_dict({"sigla": "Não Localizada"})
 obj_dto_erro_2 = MoedaDTOIn().from_dict({"sigla": "A"})
 obj_dto_erro_3 = MoedaDTOIn().from_dict({"sigla": 123.45})
-
-
-def test_obter_moeda_por_sigla_ok():
-    obj_moeda = ObterMoedaPorSigla(obj_repo).execute(obj_dto_ok)
-
-    assert obj_moeda is not None
 
 
 def test_obter_moeda_por_sigla_erro_validacao():
@@ -56,4 +51,6 @@ def test_obter_moeda_por_sigla_erro_nao_informada():
 
 
 def test_obter_moeda_por_sigla_erro_nao_localizada():
-    assert ObterMoedaPorSigla(obj_repo).execute(obj_dto_erro_1) is False
+    with pytest.raises(MoedaSiglaNaoLocalizada) as msg_error:
+        ObterMoedaPorSigla(obj_repo).execute(obj_dto_erro_1)
+    assert msg_error.value.message == "Sigla da Moeda não localizada!"

@@ -27,8 +27,6 @@ class MoedasException(Exception):  # pragma: no cover
 # ------------------------------------------------------------------------------
 #   Referentes ao tratamento geral da entidade
 # ------------------------------------------------------------------------------
-
-
 class MoedaNotFound(Exception):
     def __init__(self) -> None:
         super().__init__()
@@ -53,14 +51,9 @@ class MoedaErrosDeValidacao(Exception):
         self.status_code = 422
 
 
-class MoedaDadosInvalidos(MoedaBadRequest):
-    def __init__(self) -> None:
-        super().__init__("Informe todos os dados corretamente!")
-
-
-class MoedaSiglaJaCadastrada(MoedaBadRequest):
-    def __init__(self) -> None:
-        super().__init__("Sigla da Moeda já cadastrada!")
+# class MoedaDadosInvalidos(MoedaBadRequest):
+#     def __init__(self) -> None:
+#         super().__init__("Informe todos os dados corretamente!")
 
 
 class MoedaNaoInformada(MoedaBadRequest):
@@ -69,7 +62,7 @@ class MoedaNaoInformada(MoedaBadRequest):
 
 
 # ------------------------------------------------------------------------------
-#   Referentes à busca por id
+#   Referentes ao id que é identificador primário
 # ------------------------------------------------------------------------------
 class MoedaIdNaoInformado(MoedaBadRequest):
     def __init__(self) -> None:
@@ -85,16 +78,16 @@ class MoedaIdNaoLocalizado(Exception):
 
 
 # ------------------------------------------------------------------------------
-#   Referentes à busca por sigla
+#   Referentes à sigla que é atributo único
 # ------------------------------------------------------------------------------
 class MoedaSiglaNaoInformada(MoedaBadRequest):
     def __init__(self) -> None:
         super().__init__("Sigla da Moeda não informada!")
 
 
-class MoedaSiglaIncorreta(MoedaBadRequest):
+class MoedaSiglaJaCadastrada(MoedaBadRequest):
     def __init__(self) -> None:
-        super().__init__("Sigla da Moeda informada incorretamente!")
+        super().__init__("Sigla da Moeda já cadastrada!")
 
 
 class MoedaSiglaNaoLocalizada(Exception):

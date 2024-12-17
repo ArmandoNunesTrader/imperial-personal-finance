@@ -20,24 +20,25 @@ from typing import Type
 
 from isNullOrEmpty.is_null_or_empty import is_null_or_empty
 
-from src.domain.entities.moedas import Moedas
-from src.domain.interfaces.moedas_repositorio_interface import (
-    MoedasRepositorioInterface,
-)
-from src.use_cases.dtos.dto_moedas import MoedaDTOIn
-from src.use_cases.moedas.sanitize_dto_moeda import sanitize_dto_moeda as sanitize
-from src.use_cases.validators.moedas_validators import moedas_dto_in_validator_sigla
 from src.errors.moedas_errors import (
     MoedasException,
     MoedaSiglaNaoInformada,
+    MoedaSiglaNaoLocalizada,
 )
+from src.domain.interfaces.moedas_repositorio_interface import (
+    MoedasRepositorioInterface,
+)
+from src.domain.entities.moedas import Moedas
+from src.use_cases.dtos.dto_moedas import MoedaDTOIn
+from src.use_cases.moedas.sanitize_dto_moeda import sanitize_dto_moeda as sanitize
+from src.use_cases.validators.moedas_validators import moedas_dto_in_validator_sigla
 
 
 class ObterMoedaPorSigla:
     def __init__(self, repo: type[MoedasRepositorioInterface]):
         self.repo = repo
 
-    def execute(self, dto_in: Type[MoedaDTOIn]) -> Type[Moedas] | bool:
+    def execute(self, dto_in: Type[MoedaDTOIn]) -> Type[Moedas]:
         dto_in = sanitize(dto_in)
         if ("sigla" not in dto_in.to_dict()) or is_null_or_empty(
             dto_in.to_dict()["sigla"]
@@ -49,8 +50,10 @@ class ObterMoedaPorSigla:
         try:
             result = self.repo.obter_moeda_por_sigla(dto_in.to_dict()["sigla"])
             if result is None:
-                return False
+                raise MoedaSiglaNaoLocalizada()
             else:
                 return result
+        except MoedaSiglaNaoLocalizada as exception:
+            raise exception
         except Exception as exception:
             raise MoedasException(str(exception), 500)

@@ -45,8 +45,18 @@ def test_moeda_validators_id_ok():
             "id_moeda": "d4004b05-268d-4e01-9b46-0bca3f1c06b2",
         }
     )
+    obj_2 = MoedaDTOIn().from_dict(
+        {
+            "id_moeda": "d4004b05-268d-Xe01-9b46-0bca3f1c06b2",
+        }
+    )
 
     assert moedas_dto_in_validator_id(obj_1) is True
+
+    with pytest.raises(MoedaErrosDeValidacao) as msg_error:
+        moedas_dto_in_validator_full(obj_2)
+    assert msg_error.value.message != ""
+    assert msg_error.value.message["id_moeda"][0] == "must be valid UUID"
 
 
 def test_moeda_validators_sigla_ok():

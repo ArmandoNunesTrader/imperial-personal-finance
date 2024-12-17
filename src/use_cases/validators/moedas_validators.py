@@ -21,9 +21,9 @@ from cerberus import Validator
 
 import re
 
+from src.errors.moedas_errors import MoedaErrosDeValidacao
 from src.domain.enums.tipos_de_moedas import TiposDeMoedas
 from src.use_cases.dtos.dto_moedas import MoedaDTOIn
-from src.errors.moedas_errors import MoedaErrosDeValidacao
 
 
 def validate_uuid(field, value, error):

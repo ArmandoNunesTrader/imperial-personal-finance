@@ -23,6 +23,7 @@ class TiposDeContas(StrEnum):
     ATIVO = "Conta de Ativo"
     BANCO = "Conta Corrente Bancária"
     INVESTIMENTO = "Conta de Investimento"
+    FINANCIAMENTO = "Conta de Financiamento"
     CAIXA = "Conta Caixa"
 
     @classmethod

@@ -22,19 +22,23 @@ def test_create():
     obj_1 = TiposDeLancamentos(TiposDeLancamentos.RECEITA)
     obj_2 = TiposDeLancamentos(TiposDeLancamentos.DESPESA)
     obj_3 = TiposDeLancamentos(TiposDeLancamentos.INVESTIMENTO)
-    obj_4 = TiposDeLancamentos(TiposDeLancamentos.OUTRO)
+    obj_4 = TiposDeLancamentos(TiposDeLancamentos.FINANCIAMENTO)
+    obj_5 = TiposDeLancamentos(TiposDeLancamentos.OUTRO)
 
     assert obj_1.value == "Lançamento de Receita"
     assert obj_2.value == "Lançamento de Despesa"
     assert obj_3.value == "Lançamento de Investimento"
-    assert obj_4.value == "Outro Lançamento"
+    assert obj_4.value == "Lançamento de Financiamento"
+    assert obj_5.value == "Outro Lançamento"
     assert obj_1.value_to_name("Lançamento de Receita") == "RECEITA"
     assert obj_2.value_to_name("Lançamento de Despesa") == "DESPESA"
     assert obj_3.value_to_name("Lançamento de Investimento") == "INVESTIMENTO"
-    assert obj_4.value_to_name("Outro Lançamento") == "OUTRO"
+    assert obj_4.value_to_name("Lançamento de Financiamento") == "FINANCIAMENTO"
+    assert obj_5.value_to_name("Outro Lançamento") == "OUTRO"
     assert TiposDeLancamentos["RECEITA"] is TiposDeLancamentos.RECEITA
     assert TiposDeLancamentos["DESPESA"] is TiposDeLancamentos.DESPESA
     assert TiposDeLancamentos["INVESTIMENTO"] is TiposDeLancamentos.INVESTIMENTO
+    assert TiposDeLancamentos["FINANCIAMENTO"] is TiposDeLancamentos.FINANCIAMENTO
     assert TiposDeLancamentos["OUTRO"] is TiposDeLancamentos.OUTRO
     assert TiposDeLancamentos("Lançamento de Receita") is TiposDeLancamentos.RECEITA
     assert TiposDeLancamentos("Lançamento de Despesa") is TiposDeLancamentos.DESPESA
@@ -42,17 +46,23 @@ def test_create():
         TiposDeLancamentos("Lançamento de Investimento")
         is TiposDeLancamentos.INVESTIMENTO
     )
+    assert (
+        TiposDeLancamentos("Lançamento de Financiamento")
+        is TiposDeLancamentos.FINANCIAMENTO
+    )
     assert TiposDeLancamentos("Outro Lançamento") is TiposDeLancamentos.OUTRO
 
     assert TiposDeLancamentos.all_names() == [
         "RECEITA",
         "DESPESA",
         "INVESTIMENTO",
+        "FINANCIAMENTO",
         "OUTRO",
     ]
     assert TiposDeLancamentos.all_values() == [
         "Lançamento de Receita",
         "Lançamento de Despesa",
         "Lançamento de Investimento",
+        "Lançamento de Financiamento",
         "Outro Lançamento",
     ]

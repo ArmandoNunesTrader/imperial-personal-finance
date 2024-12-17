@@ -17,7 +17,6 @@
 
 from dataclasses import dataclass, field
 
-
 from src.domain.enums.tipos_de_moedas import TiposDeMoedas
 
 import src.utils.string_utils as stu

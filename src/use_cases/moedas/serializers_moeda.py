@@ -15,10 +15,12 @@
     ============================================================================
 """
 
-from typing import Type
+from typing import Type, Dict
 
 from src.domain.entities.moedas import Moedas
 from src.use_cases.dtos.dto_moedas import MoedaDTOIn
+
+import src.utils.datetime_utils as dtu
 
 
 def entity_to_dto_in(moeda: Type[Moedas]) -> Type[MoedaDTOIn]:
@@ -32,6 +34,22 @@ def entity_to_dto_in(moeda: Type[Moedas]) -> Type[MoedaDTOIn]:
         }
     )
     return dict_in
+
+
+def entity_to_dto_out(moeda: Type[Moedas]) -> Dict:
+    return {
+        "id_moeda": str(moeda.id_moeda),
+        "sigla": moeda.sigla,
+        "descricao": moeda.descricao,
+        "paridade": {
+            "sigla": moeda.paridade_com_real_brasileiro.tipo_de_moeda.name,
+            "descricao": moeda._tipo_de_moeda,
+            "valor": moeda._valor_da_paridade,
+            "formatada": moeda.paridade_com_real_brasileiro.formatada,
+        },
+        "created_at": dtu.datetime_dd_mm_yyyy_hh_mm_ss(moeda.created_at),
+        "updated_at": dtu.datetime_dd_mm_yyyy_hh_mm_ss(moeda.updated_at),
+    }
 
 
 def dto_in_to_entity(dto_in: Type[MoedaDTOIn], with_id: bool = True) -> Type[Moedas]:

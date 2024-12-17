@@ -23,6 +23,7 @@ class TiposDeLancamentos(StrEnum):
     RECEITA = "Lançamento de Receita"
     DESPESA = "Lançamento de Despesa"
     INVESTIMENTO = "Lançamento de Investimento"
+    FINANCIAMENTO = "Lançamento de Financiamento"
     OUTRO = "Outro Lançamento"
 
     @classmethod

@@ -18,11 +18,11 @@
 from typing import List
 
 
-from src.domain.entities.moedas import Moedas
+from src.errors.moedas_errors import MoedasException, MoedaNotFound
 from src.domain.interfaces.moedas_repositorio_interface import (
     MoedasRepositorioInterface,
 )
-from src.errors.moedas_errors import MoedasException
+from src.domain.entities.moedas import Moedas
 
 
 class ObterTodasAsMoedas:
@@ -33,8 +33,10 @@ class ObterTodasAsMoedas:
         try:
             result = self.repo.obter_todas_moedas()
             if result == []:
-                return False
+                raise MoedaNotFound()
             else:
                 return result
+        except MoedaNotFound as exception:
+            raise exception
         except Exception as exception:
             raise MoedasException(str(exception), 500)

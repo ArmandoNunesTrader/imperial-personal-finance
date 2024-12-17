@@ -15,6 +15,9 @@
     ============================================================================
 """
 
+import pytest
+
+from src.errors.moedas_errors import MoedaNotFound
 from src.use_cases.mocks.moedas_mock import MoedasRepositorio
 from src.use_cases.moedas.obter_todas_moedas import ObterTodasAsMoedas
 
@@ -39,4 +42,6 @@ def test_obter_todas_as_moedas_ok():
 
 
 def test_obter_todas_as_moedas_erro():
-    assert ObterTodasAsMoedas(obj_repo_clean).execute() is False
+    with pytest.raises(MoedaNotFound) as msg_error:
+        ObterTodasAsMoedas(obj_repo_clean).execute()
+    assert msg_error.value.message == "Não existem Moedas cadastradas!"

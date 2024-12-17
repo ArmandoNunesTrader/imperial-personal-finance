@@ -20,6 +20,7 @@ import pytest
 from src.errors.moedas_errors import (
     MoedaErrosDeValidacao,
     MoedaIdNaoInformado,
+    MoedaIdNaoLocalizado,
 )
 
 from src.use_cases.dtos.dto_moedas import MoedaDTOIn
@@ -60,4 +61,6 @@ def test_obter_moeda_por_id_moeda_erro_nao_informada():
 
 
 def test_obter_moeda_por_id_moeda_erro_nao_localizada():
-    assert ObterMoedaPorId(obj_repo).execute(obj_dto_erro_1) is False
+    with pytest.raises(MoedaIdNaoLocalizado) as msg_error:
+        ObterMoedaPorId(obj_repo).execute(obj_dto_erro_1)
+    assert msg_error.value.message == "Identificador da Moeda não localizado!"
