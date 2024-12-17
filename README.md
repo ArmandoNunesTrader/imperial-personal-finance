@@ -163,7 +163,7 @@
 
         Veja a figura abaixo para uma representação esquemática.
 
-        ![Alt text](images/1-Entidades.jpg)
+        TODO: Inserir imagem do Modelo de Entidades
 
 ## Casos de Uso
     São os executores das funções que manipulam as Entidades. Eles executam o
@@ -201,4 +201,4 @@
 
         Veja a figura abaixo para uma representação esquemática.
 
-        ![Alt text](images/2-Casos de Uso.jpg)
+        TODO: Inserir Imagem do Modelo de Casos de Uso
