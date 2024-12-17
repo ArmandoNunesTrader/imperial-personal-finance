@@ -63,7 +63,7 @@
 
         Veja a figura abaixo para uma representação esquemática.
 
-<p align="center>
+<p align="center">
     <img width="470" src="src/assets/readme/1-Entidades.jpg">
 </p>
 
@@ -81,6 +81,6 @@
 
         Veja a figura abaixo para uma representação esquemática.
 
-<p align="center>
+<p align="center">
     <img width="470" src="src/assets/readme/2-Casos de Uso.jpg">
 </p>
