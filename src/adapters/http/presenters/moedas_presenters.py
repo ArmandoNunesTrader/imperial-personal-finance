@@ -15,7 +15,7 @@
     ============================================================================
 """
 
-from typing import Dict
+from typing import Dict, List
 
 from src.domain.entities.moedas import Moedas
 from src.adapters.http.http_types.http_response import HttpResponse
@@ -58,13 +58,41 @@ def moedas_presenter_one(response: any, status_code_in: int = 200) -> HttpRespon
     )
 
 
-# def moedas_presenter_ok(response: str, status_code_in: int = 200) -> HttpResponse:
-#     return HttpResponse(
-#         status_code=status_code_in,
-#         body={
-#             "type": "Moedas",
-#             "count": 0,
-#             "message": response,
-#             "attributes": None,
-#         },
-#     )
+def moedas_presenter_all(
+    response: List[Moedas], status_code_in: int = 200
+) -> HttpResponse:
+    obj_list = []
+    if response is not None:
+        for reg in response:
+            obj = entity_to_dto_out(reg)
+            obj_list.append(obj)
+    return HttpResponse(
+        status_code=status_code_in,
+        body={
+            "type": "Moedas",
+            "count": len(obj_list),
+            "message": None,
+            "attributes": obj_list,
+        },
+    )
+
+    if isinstance(response, Dict):
+        return HttpResponse(
+            status_code=response["status_code"],
+            body={
+                "type": "Moedas",
+                "count": 0,
+                "message": response["body"],
+                "attributes": None,
+            },
+        )
+
+    return HttpResponse(
+        status_code=500,
+        body={
+            "type": "Moedas",
+            "count": 0,
+            "message": "Ocorreu um erro desconhecido no servidor!",
+            "attributes": None,
+        },
+    )
