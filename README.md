@@ -4,6 +4,7 @@
 Aplicativo de Finanças Pessoais desenvolvido em Python 3.12 utilizando conceitos de Clean Architecture e DDD.
 
 ![GitHub top language](https://img.shields.io/github/languages/top/ArmandoNunesTrader/imperial-personal-finance?style=flat)
+![GitHub language count](https://img.shields.io/github/languages/count/ArmandoNunesTrader/imperial-personal-finance)
 
 
 # Comentários
