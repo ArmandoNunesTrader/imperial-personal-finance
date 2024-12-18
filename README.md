@@ -1,8 +1,10 @@
 # Aplicativo Imperial Personal Finance
+<a href='https://github.com/ArmandoNunesTrader/imperial-personal-finance' target="_blank"><img alt='GitHub' src='https://img.shields.io/badge/github-100000?style=flat&logo=GitHub&logoColor=white&labelColor=black&color=black'/></a>
 
 Aplicativo de Finanças Pessoais desenvolvido em Python 3.12 utilizando conceitos de Clean Architecture e DDD.
 
-![GitHub top language](https://img.shields.io/github/languages/top/ArmandoNunesTrader/imperial-personal-finance)
+![GitHub top language](https://img.shields.io/github/languages/top/ArmandoNunesTrader/imperial-personal-finance?style=flat)
+
 
 # Comentários
         
@@ -131,11 +133,9 @@ Ordem que adoto no desenvolvimento:
     
 ➡️ Criação do ambiente virtual (padrão de bom senso para desenvolvedores **Python**, a não ser os kamikazes)
     
-➡️ Utilitários (pasta: src\utils)
-  São ferramentas gerais que facilitarão o desenvolvimento e podem encapsular funções mais complexas da linguagem. Com o tempo e a experiência, construímos um arsenal delas. E quando queremos migrar a linguagem, basta reescrever as rotinas na nova linguagem e continuar usando as funções que já estamos acostumados no nosso código.
+➡️ Utilitários (pasta: src\utils) - São ferramentas gerais que facilitarão o desenvolvimento e podem encapsular funções mais complexas da linguagem. Com o tempo e a experiência, construímos um arsenal delas. E quando queremos migrar a linguagem, basta reescrever as rotinas na nova linguagem e continuar usando as funções que já estamos acostumados no nosso código.
     
-➡️ Erros (pasta: src\errors)
-  É uma prática recomendável que se adote a saída única das funções com o resultado perfeito desta. E nos casos de erros ou inconsistências, podemos adotar a geração de erros padrão sempre propagando para o chamador da função, não importando o nível de profundidade aonde o erro ocorreu. Com isso garantimos que qualquer erro é canalizado para o funil dos blocos try/except/finally. Se a função chega no return, tudo correu bem. E criando erros personalizados, temos o controle total sobre eles, inclusive para tradução do sistema para outros idiomas.
+➡️ Erros (pasta: src\errors) - É uma prática recomendável que se adote a saída única das funções com o resultado perfeito desta. E nos casos de erros ou inconsistências, podemos adotar a geração de erros padrão sempre propagando para o chamador da função, não importando o nível de profundidade aonde o erro ocorreu. Com isso garantimos que qualquer erro é canalizado para o funil dos blocos try/except/finally. Se a função chega no return, tudo correu bem. E criando erros personalizados, temos o controle total sobre eles, inclusive para tradução do sistema para outros idiomas.
 
 ## Entidades
 
@@ -147,17 +147,13 @@ Com isso, devemos tentar protegê-lo de contaminação. Ou seja, garantir que o 
 
 Nesta camada adoto a seguinte ordem de criação:
 
-➡️ Enumerators (pasta: src\domain\enums)    
-  São meras e simples tabelas de dados que mudarão muito pouco ao longo do tempo de vida do sistema (pense numa tabuada por exemplo, ou numa tabela de gêneros como Masculino e Feminino, se bem que nos dias de hoje, não sei se foi um bom exemplo, mas a tabuada foi).
+➡️ Enumerators (pasta: src\domain\enums) - São meras e simples tabelas de dados que mudarão muito pouco ao longo do tempo de vida do sistema (pense numa tabuada por exemplo, ou numa tabela de gêneros como Masculino e Feminino, se bem que nos dias de hoje, não sei se foi um bom exemplo, mas a tabuada foi).
 
-➡️ Value Objects (pasta: src\domain\value_objects)
-  São objetos ainda rudimentares e que deveriam ser anêmicos. Mas já estão num estágio acima na escala de complexidade. Eles podem usar os enums, e normalmente o fazem. São objetos únicos e com "identidade" não volátil. Morre a identidade, morre o objeto, e vice-versa. O conceito vem do DDD.
+➡️ Value Objects (pasta: src\domain\value_objects) - São objetos ainda rudimentares e que deveriam ser anêmicos. Mas já estão num estágio acima na escala de complexidade. Eles podem usar os enums, e normalmente o fazem. São objetos únicos e com "identidade" não volátil. Morre a identidade, morre o objeto, e vice-versa. O conceito vem do DDD.
 
-➡️ Entities (pasta: src\domain\entities)       
-  São o coração do negócio, e que contém de forma centralizada uma coleção de todos os processos e regras que fazem o negócio do cliente girar. Não podemos descuidar delas nunca, ao contrário. E, se são tão importantes, precisaremos armazená-las para depois manipulá-las e gerar valor. Serão a base (mas não a essência) para o que no futuro será nosso mapeamento para meios físicos de armazenamento (não interessa aqui quais, uma ficha de um paciente de um médico pode ser armazenada no pen-drive, num banco de dados, num arquivo de segurança num banco ou num cofre, não interessa, foque agora na ficha que fala do principal, o paciente).
+➡️ Entities (pasta: src\domain\entities) - São o coração do negócio, e que contém de forma centralizada uma coleção de todos os processos e regras que fazem o negócio do cliente girar. Não podemos descuidar delas nunca, ao contrário. E, se são tão importantes, precisaremos armazená-las para depois manipulá-las e gerar valor. Serão a base (mas não a essência) para o que no futuro será nosso mapeamento para meios físicos de armazenamento (não interessa aqui quais, uma ficha de um paciente de um médico pode ser armazenada no pen-drive, num banco de dados, num arquivo de segurança num banco ou num cofre, não interessa, foque agora na ficha que fala do principal, o paciente).
 
-➡️ Interfaces de Repositório (pasta: src\domain\interfaces)   
-  Este é um ponto polêmico. Aonde colocá-los? Eu entendo que de nada adianta eu ter uma riqueza de informações bem organizadas, se não defino as regras de como eu posso distribuí-las a quem possa se interessar. Não devemos pensar em meios físicos, mas sim nos conceitos que serão necessários para que a informação possa ser mantida (as famosas funções *CRUD* e as opções de atualizações e consultas). Seguindo o que disse acima, se preciso agora, mas não tenho, abstraio. Aqui ficarão as interfaces dos repositórios que usaremos no sistema e que possibilitam os testes das **Entidades**.
+➡️ Interfaces de Repositório (pasta: src\domain\interfaces) - Este é um ponto polêmico. Aonde colocá-los? Eu entendo que de nada adianta eu ter uma riqueza de informações bem organizadas, se não defino as regras de como eu posso distribuí-las a quem possa se interessar. Não devemos pensar em meios físicos, mas sim nos conceitos que serão necessários para que a informação possa ser mantida (as famosas funções *CRUD* e as opções de atualizações e consultas). Seguindo o que disse acima, se preciso agora, mas não tenho, abstraio. Aqui ficarão as interfaces dos repositórios que usaremos no sistema e que possibilitam os testes das **Entidades**.
 
 Veja a figura abaixo para uma representação esquemática teórica.
 
@@ -171,6 +167,11 @@ E veja o ***Modelo de Entidades*** do sistema.
     <img width="470" src="src/assets/readme/1-Camada de Entidades.jpg">
 </p>
 
+Aqui apresento as relações entre as ***Interfaces de Repositórios***.
+
+<p align="center">
+    <img width="470" src="src/assets/readme/3-Interfaces de Repositório.jpg">
+</p>
 
 ## Casos de Uso
 
@@ -178,17 +179,13 @@ São os executores das funções que manipulam as **Entidades**. Eles executam o
 
 Nesta camada adoto a seguinte ordem de criação:
 
-➡️ DTO's (pasta: src\use_cases\dtos)    
-  São como um mapa que define a forma como iremos receber os dados e encaminharmos eles adiante. Devemos trabalhar para que neles não haja lógica de negócio. Deveriam ser apenas mapas para se chegar a um objetivo. Serão como envelopes que transportarão os dados entre as camadas do sistema (principalmente no sentido de fora para dentro dele).
+➡️ DTO's (pasta: src\use_cases\dtos) - São como um mapa que define a forma como iremos receber os dados e encaminharmos eles adiante. Devemos trabalhar para que neles não haja lógica de negócio. Deveriam ser apenas mapas para se chegar a um objetivo. Serão como envelopes que transportarão os dados entre as camadas do sistema (principalmente no sentido de fora para dentro dele).
 
-➡️ Validator's (pasta: src\use_cases\validators)   
-  São os guardiões dos envelopes. Os agentes de segurança no transporte de valores. São responsáveis por validar e garantir a qualidade dos dados transportados pelos DTO's.
+➡️ Validator's (pasta: src\use_cases\validators) - São os guardiões dos envelopes. Os agentes de segurança no transporte de valores. São responsáveis por validar e garantir a qualidade dos dados transportados pelos DTO's.
 
-➡️ Use Cases (pasta: src\use_cases\<ENTIDADE>)
-  São as fábricas aonde o trabalho acontece. Manipulam as informações recebidas via DTO's pelas **Entidades** e, através das regras de negócio implantadas por eles, orquestram a comunicação entre elas para poder produzir a informação desejada ou efetuar o processo solicitado. São as fábricas de soluções. Gosto de agrupar os **Casos de Uso** em subdiretórios, sendo um para cada **Entidade**, pois algumas podem ter dezenas de **Casos de Uso** em sistemas complexos.
+➡️ Use Cases (pasta: src\use_cases\\*ENTIDADE*) - São as fábricas aonde o trabalho acontece. Manipulam as informações recebidas via DTO's pelas **Entidades** e, através das regras de negócio implantadas por eles, orquestram a comunicação entre elas para poder produzir a informação desejada ou efetuar o processo solicitado. São as fábricas de soluções. Gosto de agrupar os **Casos de Uso** em subdiretórios, sendo um para cada **Entidade**, pois algumas podem ter dezenas de **Casos de Uso** em sistemas complexos.
 
-➡️ Repositórios Mockados (pasta: src\use_cases\mocks)
-  Eu procuro sempre criar repositórios mockados com dados que desejo usar para simular os processos dos **Casos de Uso** ou até mesmo para simular situações reais com dados de forma que não impactem o repositório central do sistema. São basicamente usados nos testes de aceitação e integração dos **Casos de Uso**. E os coloco aqui.
+➡️ Repositórios Mockados (pasta: src\use_cases\mocks) - Eu procuro sempre criar repositórios mockados com dados que desejo usar para simular os processos dos **Casos de Uso** ou até mesmo para simular situações reais com dados de forma que não impactem o repositório central do sistema. São basicamente usados nos testes de aceitação e integração dos **Casos de Uso**. E os coloco aqui.
 
 Veja a figura abaixo para uma representação esquemática teórica.
 
