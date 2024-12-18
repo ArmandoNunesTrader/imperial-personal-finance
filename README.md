@@ -205,7 +205,7 @@ E veja o ***Modelo de Casos de Uso*** do sistema.
 
 Os **Adapters** fazem a comunicação entre o mundo externo e o mundo da lógica de negócio. 
 
-Eles intermediam as requisições (não importa a forma e origem, embora comumente vatravés venham de uma API Rest em formato JSON através de uma HTTP Request), adaptando o formato desta requisição para um DTO e executando um **Caso de Uso** passando esse DTO.
+Eles intermediam as requisições (não importa a forma e origem, embora comumente venham de uma API Rest em formato JSON através de uma HTTP Request), adaptando o formato desta requisição para um DTO e executando um **Caso de Uso**,passando esse DTO.
 
 O **Caso de Uso** faz o seu trabalho e devolve uma resposta que pode ser uma ou mais instâncias de uma ou mais **Entidades* ou apenas um status dizendo se conseguiu ou não executar o que foi solicitado. 
 
@@ -213,9 +213,9 @@ O **Adapter** então adapta esta resposta recebida para um formato que possa ser
 
 O ciclo de desenvolvimento que eu costumo adotar é (considerando que crio um subdiretório em adapters para cada tipo de solicitação/resposta que o sistema irá processar, por exemplo: http, grpc, etc... Neste exemplo usarei o mais trivial que é o protocolo HTTP):
 
-➡️ HTTP Type's (pasta: src\adapters\http\http_types) - São os padrões básicos de solicitação/resposta do diágolo que serão tratados.
+➡️ HTTP Type's (pasta: src\adapters\http\http_types) - São os padrões básicos de solicitação/resposta do diálogo que serão tratados.
 
-➡️ Interfaces (pasta: src\adapters\http\interfaces) - É o padrão que define o funcionamento dos Controllers, naquele protocolo de diálogo, que normalmente se restrigem a converter uma solicitação em uma resposta após executar um **Caso de Uso**.
+➡️ Interfaces (pasta: src\adapters\http\interfaces) - É o padrão que define o funcionamento dos Controllers, naquele protocolo de diálogo específico, que normalmente se restrigem a converter uma solicitação, em uma resposta após executar um **Caso de Uso**.
 
 ➡️ Presenter's (pasta: src\adapters\http\presenters) - Definem a forma e o conteúdo do que será fornecido para o solicitante após a execução do trabalho do Controller.
 
