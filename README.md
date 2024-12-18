@@ -172,7 +172,7 @@ E veja o ***Modelo de Entidades*** do sistema.
 Aqui apresento as relações entre as ***Interfaces de Repositórios***.
 
 <p align="center">
-    <img width="470" src="src/assets/readme/3-Interfaces de Repositório.jpg">
+    <img width="470" src="src/assets/readme/1-Interfaces de Repositório.jpg">
 </p>
 
 ## Casos de Uso
@@ -199,4 +199,30 @@ E veja o ***Modelo de Casos de Uso*** do sistema.
 
 <p align="center">
     <img width="470" src="src/assets/readme/2-Camada de Casos de Uso.jpg">
+</p>
+
+## Adaptadores
+
+Os **Adapters** fazem a comunicação entre o mundo externo e o mundo da lógica de negócio. 
+
+Eles intermediam as requisições (não importa a forma e origem, embora comumente vatravés venham de uma API Rest em formato JSON através de uma HTTP Request), adaptando o formato desta requisição para um DTO e executando um **Caso de Uso** passando esse DTO.
+
+O **Caso de Uso** faz o seu trabalho e devolve uma resposta que pode ser uma ou mais instâncias de uma ou mais **Entidades* ou apenas um status dizendo se conseguiu ou não executar o que foi solicitado. 
+
+O **Adapter** então adapta esta resposta recebida para um formato que possa ser entendido pelo solicitante (comumente uma HTTP Response no caso de solicitação API Rest através do protocolo HTTP) e a encaminha a este.
+
+O ciclo de desenvolvimento que eu costumo adotar é (considerando que crio um subdiretório em adapters para cada tipo de solicitação/resposta que o sistema irá processar, por exemplo: http, grpc, etc... Neste exemplo usarei o mais trivial que é o protocolo HTTP):
+
+➡️ HTTP Type's (pasta: src\adapters\http\http_types) - São os padrões básicos de solicitação/resposta do diágolo que serão tratados.
+
+➡️ Interfaces (pasta: src\adapters\http\interfaces) - É o padrão que define o funcionamento dos Controllers, naquele protocolo de diálogo, que normalmente se restrigem a converter uma solicitação em uma resposta após executar um **Caso de Uso**.
+
+➡️ Presenter's (pasta: src\adapters\http\presenters) - Definem a forma e o conteúdo do que será fornecido para o solicitante após a execução do trabalho do Controller.
+
+➡️ Controller's (pasta: src\adapters\http\controllers) - Realizam o trabalho de tratar todas as solicitações externas, solicitar as operações necessárias e fornecer uma resposta ao solicitante externo em um formato que possa ser entendido por este.
+
+Veja a figura abaixo para uma representação esquemática teórica.
+
+<p align="center">
+    <img width="470" src="src/assets/readme/3-Adapters.jpg">
 </p>
