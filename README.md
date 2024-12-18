@@ -9,7 +9,7 @@
         A idéia deste aplicativo é ter algum produto prático que materialize a
     minha evolução no aprofundamento do aprendizado da linguagem **Python** e
     que sirva de material de pesquisa aos que estão iniciando ou mesmo, querendo 
-    uma outra perspectiva prática da aplicação dos conceiros de ***Clean Architecture***
+    uma outra perspectiva prática da aplicação dos conceitos de ***Clean Architecture***
     e ***DDD***.
         Existem várias formas de se aplicar os conceitos da ***Clean Architecture***
     e do ***DDD***, visto que eles são linhas de ação e estratégias, e não orientações
