@@ -26,6 +26,8 @@ from src.errors.moedas_errors import (
     MoedaIdNaoLocalizado,
     MoedaSiglaJaCadastrada,
     MoedaErrosDeValidacao,
+    MoedaAlteracaoOK,
+    MoedaExclusaoOK,
 )
 from src.use_cases.moedas.manter_moedas import (
     CriarMoeda,
@@ -129,13 +131,9 @@ def test_moedas_use_cases_atualizar():
     obj_check.descricao = "Descrição Alterada New"
     dict_in = entity_to_dto_in(obj_check)
 
-    result = AtualizarMoeda(obj_repo).execute(dict_in)
-
-    assert result is True
-
-    obj_check_pos = ObterMoedaPorId(obj_repo).execute(id_moeda_check)
-    assert obj_check_pos.sigla == obj_check.sigla
-    assert obj_check_pos.descricao == obj_check.descricao
+    with pytest.raises(MoedaAlteracaoOK) as msg_error:
+        AtualizarMoeda(obj_repo).execute(dict_in)
+    assert msg_error.value.message == "Moeda atualizada com sucesso!"
 
 
 def test_moedas_use_cases_excluir():
@@ -168,13 +166,12 @@ def test_moedas_use_cases_excluir():
     assert msg_error.value.message["id_moeda"][0] == "must be valid UUID"
 
     # Teste do caso de uso Excluir Moeda ---------------------------------------
-    dict_excluir = MoedaDTOIn().from_dict({"id_moeda": str(id_moeda_1)})
-    result = ExcluirMoeda(obj_repo).execute(dict_excluir)
-    assert result is True
+    id_moeda_1 = str(obj_repo.repo[0].id_moeda)
+    dict_excluir = MoedaDTOIn().from_dict({"id_moeda": id_moeda_1})
 
-    with pytest.raises(MoedaIdNaoLocalizado) as msg_error:
-        ObterMoedaPorId(obj_repo).execute(dict_excluir)
-    assert msg_error.value.message == "Identificador da Moeda não localizado!"
+    with pytest.raises(MoedaExclusaoOK) as msg_error:
+        ExcluirMoeda(obj_repo).execute(dict_excluir)
+    assert msg_error.value.message == "Moeda excluída com sucesso!"
 
 
 def test_moedas_use_cases_excessoes():

@@ -35,6 +35,8 @@ from src.use_cases.moedas.obter_moeda_por_sigla import ObterMoedaPorSigla
 from src.errors.moedas_errors import (
     MoedasException,
     MoedaNaoInformada,
+    MoedaAlteracaoOK,
+    MoedaExclusaoOK,
     MoedaIdNaoLocalizado,
     MoedaSiglaJaCadastrada,
     MoedaSiglaNaoLocalizada,
@@ -65,8 +67,7 @@ class CriarMoeda:
 
             obj_moeda = dto_in_to_entity(dto_in, False)
 
-            result = self.repo.criar_moeda(obj_moeda)
-            return result
+            return self.repo.criar_moeda(obj_moeda)
         except MoedaSiglaJaCadastrada as exception:
             raise exception
         except Exception as exception:
@@ -77,7 +78,7 @@ class AtualizarMoeda:
     def __init__(self, repo: Type[MoedasRepositorioInterface]):
         self.repo = repo
 
-    def execute(self, dto_in: Type[MoedaDTOIn]) -> bool:
+    def execute(self, dto_in: Type[MoedaDTOIn]) -> None:
         if is_null_or_empty(dto_in):
             raise MoedaNaoInformada()
 
@@ -105,7 +106,11 @@ class AtualizarMoeda:
             obj_moeda = dto_in_to_entity(dto_in, True)
             obj_moeda.updated_at = dtu.dt_now_utc()
 
-            return self.repo.atualizar_moeda(obj_moeda)
+            result = self.repo.atualizar_moeda(obj_moeda)
+            if result is True:
+                raise MoedaAlteracaoOK()
+        except MoedaAlteracaoOK as exception:
+            raise exception
         except MoedaIdNaoLocalizado as exception:
             raise exception
         except MoedaSiglaJaCadastrada as exception:
@@ -118,7 +123,7 @@ class ExcluirMoeda:
     def __init__(self, repo: Type[MoedasRepositorioInterface]):
         self.repo = repo
 
-    def execute(self, dto_in: Type[MoedaDTOIn]) -> bool:
+    def execute(self, dto_in: Type[MoedaDTOIn]) -> None:
         if is_null_or_empty(dto_in):
             raise MoedaNaoInformada()
 
@@ -129,7 +134,11 @@ class ExcluirMoeda:
             # Busca o objeto a alterar
             obj_moeda = ObterMoedaPorId(self.repo).execute(dto_in)
 
-            return self.repo.excluir_moeda(obj_moeda)
+            result = self.repo.excluir_moeda(obj_moeda)
+            if result is True:
+                raise MoedaExclusaoOK()
+        except MoedaExclusaoOK as exception:
+            raise exception
         except MoedaIdNaoLocalizado as exception:
             raise exception
         except Exception as exception:

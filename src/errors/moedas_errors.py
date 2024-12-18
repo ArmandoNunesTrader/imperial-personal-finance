@@ -51,9 +51,20 @@ class MoedaErrosDeValidacao(Exception):
         self.status_code = 422
 
 
-# class MoedaDadosInvalidos(MoedaBadRequest):
-#     def __init__(self) -> None:
-#         super().__init__("Informe todos os dados corretamente!")
+class MoedaAlteracaoOK(Exception):
+    def __init__(self) -> None:
+        super().__init__()
+        self.message = "Moeda atualizada com sucesso!"
+        self.name = "Success"
+        self.status_code = 200
+
+
+class MoedaExclusaoOK(Exception):
+    def __init__(self) -> None:
+        super().__init__()
+        self.message = "Moeda excluída com sucesso!"
+        self.name = "Success"
+        self.status_code = 200
 
 
 class MoedaNaoInformada(MoedaBadRequest):

@@ -75,24 +75,3 @@ def moedas_presenter_all(
             "attributes": obj_list,
         },
     )
-
-    if isinstance(response, Dict):
-        return HttpResponse(
-            status_code=response["status_code"],
-            body={
-                "type": "Moedas",
-                "count": 0,
-                "message": response["body"],
-                "attributes": None,
-            },
-        )
-
-    return HttpResponse(
-        status_code=500,
-        body={
-            "type": "Moedas",
-            "count": 0,
-            "message": "Ocorreu um erro desconhecido no servidor!",
-            "attributes": None,
-        },
-    )
